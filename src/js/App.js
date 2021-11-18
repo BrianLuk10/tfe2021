@@ -1,12 +1,15 @@
-import React from "react";
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-import Caisse from "../components/Caisse";
-import Dashboard from "../components/Dashboard";
-import Connexion from "../components/Connexion";
+import React, { useState } from 'react';
+import Caisse from "../components/caisse/Caisse";
+import Dashboard from "../components/dashbord/Dashboard";
+import Connexion from "../components/connexion/Connexion";
 import { Button } from "react-bootstrap";
 
 export default function App(){
-
+  const [token, setToken] = useState();
+  if(!token) {
+    return <Connexion setToken={setToken} />
+  }
     return(
         <div className="wrapper">
       <h1>Application</h1>
@@ -24,7 +27,7 @@ export default function App(){
         </Switch>
         <Link to="/preferences">
   <Button>
-    <span>Login</span>
+    <span>preferences</span>
   </Button>
 </Link>
 <Link to="/connexion">
