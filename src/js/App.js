@@ -4,9 +4,10 @@ import Caisse from "../components/caisse/Caisse";
 import Dashboard from "../components/dashbord/Dashboard";
 import Connexion from "../components/connexion/Connexion";
 import { Button } from "react-bootstrap";
+import useToken from '../components/connexion/useToken';
 
 export default function App(){
-  const [token, setToken] = useState();
+  const { token, setToken } = useToken();
   if(!token) {
     return <Connexion setToken={setToken} />
   }
