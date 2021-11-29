@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from "prop-types"
-
 import "./Connexion.scss";
 
 async function loginUser(credentials) {
-  return fetch('http://localhost:3030/login', {
+  return fetch('http://localhost:3030/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -27,9 +26,9 @@ export default function Connexion({setToken}) {
     setToken(token);
   }
   else {
-    alert("incorrecte")
+    alert('incorrecte');
   }
-  }
+}
 
   return(
     <div className="login-wrapper">

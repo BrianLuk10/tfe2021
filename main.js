@@ -1,13 +1,16 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-
+var Toaster = require('electron-toaster');
+var toaster = new Toaster();
 
 let mainWindow;
 
 function createWindow () {
 
   mainWindow = new BrowserWindow({width: 1800, height: 1200});
+
+  toaster.init(mainWindow);
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
