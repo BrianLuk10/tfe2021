@@ -26,7 +26,7 @@ export default function Connexion({setToken}) {
     setToken(token);
   }
   else {
-    alert('incorrecte');
+    console.log('incorrecte');
   }
 }
 

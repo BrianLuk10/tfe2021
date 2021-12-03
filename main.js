@@ -10,6 +10,8 @@ function createWindow () {
 
   mainWindow = new BrowserWindow({width: 1800, height: 1200});
 
+  //mainWindow.removeMenu();
+
   toaster.init(mainWindow);
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
