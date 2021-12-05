@@ -27,7 +27,7 @@ export default class Caisse extends React.Component {
       posts: [],
       offset: 0,
       data: [],
-      perPage: 1,
+      perPage: 4,
       currentPage: 0,
       categorie: "",
       filter: [],
@@ -126,6 +126,11 @@ export default class Caisse extends React.Component {
   render() {
     return (
       <div>
+      <div class='col-lg-3 col-sm-12 left'>
+      <span>test</span>
+      </div>
+      <div class='col-lg-9 col-sm-12 right'>
+      
         <Modal show={this.state.show} handleClose={this.hideModal}>
           <div id="img1" />
           <div id="nom"></div>
@@ -148,6 +153,7 @@ export default class Caisse extends React.Component {
           containerClassName={"pagination"}
           subContainerClassName={"pages pagination"}
           activeClassName={"active"} />
+          </div>
       </div>
     )
   }
