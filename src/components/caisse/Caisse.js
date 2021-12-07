@@ -3,36 +3,41 @@ import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import "./Caisse.css";
 
-
-
-const Modal = ({ handleClose, show, children }) => {
+const Modal = ({ handleClose, validerModal, show, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
+
 
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
         {children}
-        <button type="button" onClick={handleClose}>
-          Close
+        <input type="range" min="1" max="10" class="slider" id="myRange"></input>
+        <div id='result'></div>
+        <span></span>
+        <button className="btn btn-success" onClick={validerModal}>
+          Valider
+        </button>
+        <button className="btn btn-danger" onClick={handleClose}>
+          Fermer
         </button>
       </section>
     </div>
   );
 };
+
+
 export default class Caisse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMessage: false,
       posts: [],
       offset: 0,
       data: [],
       perPage: 4,
       currentPage: 0,
-      categorie: "",
       filter: [],
-      value: "Tout",
       panier: [],
+      caisse: [],
       show: false,
     }
     this.onChangeValue = this.onChangeValue.bind(this);
@@ -45,9 +50,17 @@ export default class Caisse extends React.Component {
 
 
   showModal = (pd) => {
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("result");
+    output.innerHTML = slider.value;
+    slider.oninput = function () {
+      output.innerHTML = this.value;
+    }
+    //pd.nombre = slider.value
+    console.log(pd)
     this.setState({ show: true });
-    sessionStorage.setItem('caisse', JSON.stringify(pd))
-    var data = JSON.parse(sessionStorage.getItem('caisse'))
+    sessionStorage.setItem('caisseProduit', JSON.stringify(pd))
+    var data = JSON.parse(sessionStorage.getItem('caisseProduit'))
     document.getElementById("nom").innerHTML = data.nom;
     document.getElementById("prix").innerHTML = data.prix.toFixed(2) + "$";
     document.getElementById("img1").innerHTML = `<img class="image" src=` + data.image + `>`
@@ -56,10 +69,17 @@ export default class Caisse extends React.Component {
 
   hideModal = () => {
     this.setState({ show: false });
-    this.state.panier.push(JSON.parse(sessionStorage.getItem('caisse')))
-    console.log(this.state.panier)
-    sessionStorage.removeItem('caisse')
   };
+
+  validerModal = () => {
+    this.setState({ show: false });
+    var slider = document.getElementById("myRange");
+    let data = JSON.parse(sessionStorage.getItem('caisseProduit'))
+    data.nombre = slider.value
+    sessionStorage.setItem('caisse', JSON.stringify(data))
+    this.state.caisse.push(JSON.parse(sessionStorage.getItem('caisse')))
+    console.log(this.state.caisse)
+  }
 
   test() {
     console.log('test')
@@ -126,34 +146,32 @@ export default class Caisse extends React.Component {
   render() {
     return (
       <div>
-      <div class='col-lg-3 col-sm-12 left'>
-      <span>test</span>
-      </div>
-      <div class='col-lg-9 col-sm-12 right'>
-      
-        <Modal show={this.state.show} handleClose={this.hideModal}>
-          <div id="img1" />
-          <div id="nom"></div>
-          <div id="prix">€</div>
-          <label for="customRange1" class="form-label">Example range</label>
-          <input type="range" class="form-range" id="customRange1" />
-        </Modal>
-        <div className='container'>
-          {this.state.postData}
+        <div class='col-lg-3 col-sm-12 left'>
+          <span>test</span>
         </div>
-        <ReactPaginate
-          previousLabel={"prev"}
-          nextLabel={"next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={this.state.pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageClick}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"} />
+        <div class='col-lg-9 col-sm-12 right'>
+
+          <Modal show={this.state.show} handleClose={this.hideModal} validerModal={this.validerModal}>
+            <div id="img1" />
+            <div id="nom"></div>
+            <div id="prix">€</div>
+          </Modal>
+          <div className='container'>
+            {this.state.postData}
           </div>
+          <ReactPaginate
+            previousLabel={"prev"}
+            nextLabel={"next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"} />
+        </div>
       </div>
     )
   }
