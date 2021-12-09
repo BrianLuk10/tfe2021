@@ -3,6 +3,8 @@ import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import "./Caisse.css";
 
+let prixTotal = 0;
+
 const Modal = ({ handleClose, validerModal, show, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
@@ -33,12 +35,11 @@ export default class Caisse extends React.Component {
       posts: [],
       offset: 0,
       data: [],
-      perPage: 4,
+      perPage: 20,
       currentPage: 0,
-      filter: [],
-      panier: [],
       caisse: [],
       show: false,
+      article: [],
     }
     this.onChangeValue = this.onChangeValue.bind(this);
     this.showModal = this.showModal.bind(this);
@@ -79,10 +80,13 @@ export default class Caisse extends React.Component {
     sessionStorage.setItem('caisse', JSON.stringify(data))
     this.state.caisse.push(JSON.parse(sessionStorage.getItem('caisse')))
     console.log(this.state.caisse)
+    this.componentDidMount();
+
   }
 
-  test() {
-    console.log('test')
+  calculerPrixTotal = (a, b) => {
+    let prix = a * b;
+    prixTotal += prix;
   }
 
   onChangeValue(e) {
@@ -126,6 +130,30 @@ export default class Caisse extends React.Component {
         this.setState({ posts });
         this.setState({ filter });
       });
+    let i = 0;
+    try {
+      const posts = this.state.caisse.map(obj => ({
+        articleId: i++,
+        id: obj.id,
+        nom: obj.nom,
+        prix: obj.prix,
+        nombre: obj.nombre
+      }));
+      const slice = posts.slice(this.state.offset, this.state.offset + this.state.perPage)
+      const articleShow = slice.map(pd => <React.Fragment>
+        {this.calculerPrixTotal(pd.prix, pd.nombre)}
+        <div>
+          <div>{pd.nom} {pd.prix.toFixed(2)}€ x{pd.nombre} prix total : {(pd.prix * pd.nombre).toFixed(2)}€ </div>
+        </div>
+        <hr></hr>
+      </React.Fragment>)
+      this.setState({
+        articleShow
+      })
+    }
+    catch {
+      console.log("pas d'article")
+    }
   }
 
 
@@ -147,7 +175,10 @@ export default class Caisse extends React.Component {
     return (
       <div>
         <div class='col-lg-3 col-sm-12 left'>
-          <span>test</span>
+          {this.state.articleShow}
+          <div className="Total">
+            Total à payer: {prixTotal.toFixed(2)} €
+          </div>
         </div>
         <div class='col-lg-9 col-sm-12 right'>
 
