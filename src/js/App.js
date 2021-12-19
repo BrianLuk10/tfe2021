@@ -5,6 +5,7 @@ import Dashboard from "../components/dashbord/Dashboard";
 import Connexion from "../components/connexion/Connexion";
 import { Button } from "react-bootstrap";
 import useToken from '../components/connexion/useToken';
+import Ticket from '../components/caisse/Ticket';
 
 export default function App() {
   /*
@@ -17,17 +18,6 @@ export default function App() {
     <div className="wrapper">
       <h1>Application</h1>
       <BrowserRouter>
-        <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/caisse">
-            <Caisse />
-          </Route>
-          <Route path="/connexion">
-            <Connexion />
-          </Route>
-        </Switch>
         <Link to="/caisse">
           <Button>
             <span>Caisse</span>
@@ -38,6 +28,25 @@ export default function App() {
             <span>Dashboard</span>
           </Button>
         </Link>
+        <Link to="/ticket">
+          <Button>
+            <span>ticket</span>
+          </Button>
+        </Link>
+        <Switch>
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+          <Route path="/caisse">
+            <Caisse />
+          </Route>
+          <Route path="/connexion">
+            <Connexion />
+          </Route>
+          <Route path="/ticket">
+            <Ticket />
+          </Route>
+        </Switch>
       </BrowserRouter>
 
     </div>

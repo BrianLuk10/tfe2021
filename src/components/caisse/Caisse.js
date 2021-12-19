@@ -1,7 +1,9 @@
 import React from "react";
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import "./Caisse.css";
+import ReactToPrint from "react-to-print"
 
 let prixTotal = 0;
 
@@ -68,6 +70,13 @@ export default class Caisse extends React.Component {
 
   };
 
+  reset = () => {
+    sessionStorage.setItem('save', JSON.stringify(this.state.caisse))
+    this.setState({ caisse: [] })
+    prixTotal = 0;
+    this.componentDidMount();
+  }
+
   hideModal = () => {
     this.setState({ show: false });
   };
@@ -120,8 +129,6 @@ export default class Caisse extends React.Component {
             </div>
           </div>
         </React.Fragment>)
-
-
         this.setState({
           pageCount: Math.ceil(posts.length / this.state.perPage),
 
@@ -139,8 +146,8 @@ export default class Caisse extends React.Component {
         prix: obj.prix,
         nombre: obj.nombre
       }));
-      const slice = posts.slice(this.state.offset, this.state.offset + this.state.perPage)
-      const articleShow = slice.map(pd => <React.Fragment>
+      prixTotal = 0;
+      const articleShow = posts.map(pd => <React.Fragment>
         {this.calculerPrixTotal(pd.prix, pd.nombre)}
         <div>
           <div>{pd.nom} {pd.prix.toFixed(2)}€ x{pd.nombre} prix total : {(pd.prix * pd.nombre).toFixed(2)}€ </div>
@@ -179,6 +186,12 @@ export default class Caisse extends React.Component {
           <div className="Total">
             Total à payer: {prixTotal.toFixed(2)} €
           </div>
+          <button className="btn btn-info" onClick={this.reset}>confirmer</button>
+          <Link to="/ticket">
+            <button onClick={this.reset}>
+              <span>ticket</span>
+            </button>
+          </Link>
         </div>
         <div class='col-lg-9 col-sm-12 right'>
 

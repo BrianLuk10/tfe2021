@@ -1,14 +1,22 @@
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { app, ipcMain, BrowserWindow } = require('electron');
 var Toaster = require('electron-toaster');
 var toaster = new Toaster();
 
+
 let mainWindow;
 
-function createWindow () {
+function createWindow() {
 
-  mainWindow = new BrowserWindow({width: 1800, height: 1200});
+  process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+
+  mainWindow = new BrowserWindow({
+    width: 1800, height: 1200, webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+  });
+
 
   //mainWindow.removeMenu();
 
