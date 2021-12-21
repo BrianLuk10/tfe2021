@@ -2,6 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
 
 
+let prixTotal = 0;
+function calculerPrixTotal(a, b) {
+    let prix = a * b;
+    prixTotal += prix;
+}
+
 function Ticket() {
 
     let articleShow;
@@ -12,6 +18,8 @@ function Ticket() {
     }, [])
 
     let componentRef = useRef(null)
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
 
     let data = JSON.parse(sessionStorage.getItem('save'))
     sessionStorage.setItem('caisse', JSON.stringify(data))
@@ -25,11 +33,14 @@ function Ticket() {
             prix: obj.prix,
             nombre: obj.nombre
         }));
-        articleShow = posts.map(pd => <React.Fragment>
-            <div>
-                <div>{pd.nom}&nbsp;x{pd.nombre}&nbsp;{(pd.prix * pd.nombre)}</div>
-            </div>
-        </React.Fragment>)
+        articleShow = posts.map(pd => <tr>
+            {calculerPrixTotal(pd.prix, pd.nombre)}
+            <td>{date}</td>
+            <td>{pd.nombre}</td>
+            <td>{pd.nom}</td>
+            <td></td>
+            <td>{(pd.prix * pd.nombre)}€</td>
+        </tr>)
     }
     catch {
         console.log("pas d'article")
@@ -49,7 +60,44 @@ function Ticket() {
                 }
                 content={() => componentRef}
             />
-            <span ref={el => componentRef = el}>{articleShow}</span>
+            <div ref={el => componentRef = el}>
+                <div>
+                    <h2>FLEUR RÉMA</h2>
+                    <div>18 rue Saint Jean 1370 Jodoigne</div>
+                    <div>010.81.24.85</div>
+                    <div>0498.80.01.02</div>
+                </div>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Qté</th>
+                        <th>Article</th>
+                        <th></th>
+                        <th>Prix</th>
+                    </tr>
+                    {articleShow}
+                    <hr></hr>
+                    <tr>
+                        <th>HTVA</th>
+                        <th>TAUX</th>
+                        <th></th>
+                        <th>TVA</th>
+                        <th></th>
+                        <th>TOTAL</th>
+                    </tr>
+                    <tr>
+                        <td>6.60€</td>
+                        <td>6.00</td>
+                        <td></td>
+                        <td>0.40€</td>
+                        <td></td>
+                        <td>{prixTotal}€</td>
+                    </tr>
+                    <div>TOTAL : {prixTotal}€</div>
+                    <div>MERCI ET AU REVOIR</div>
+                    <div>BEDANKT EN TOT ZIENS</div>
+                </table>
+            </div>
         </div>
     )
 }

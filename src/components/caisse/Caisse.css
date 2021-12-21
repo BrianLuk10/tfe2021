@@ -7,6 +7,10 @@
   border-top-right-radius: 3px;
 }
 
+hr {
+  border-top: 1px dashed;
+}
+
 .container {
   display: grid;
   grid-auto-columns: max-content;
