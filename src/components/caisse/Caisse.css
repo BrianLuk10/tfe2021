@@ -97,8 +97,8 @@ hr {
 }
 
 .left {
-  background-color: #3d231b;
-  color: #fff;
+  background-color: #2a2121;
+  color: rgb(16, 67, 236);
 }
 .right {
   display: flex;

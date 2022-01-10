@@ -1,14 +1,14 @@
 const sql = require("./db.js");
 
 // constructor
-const Produit = function(produit) {
+const Produit = function (produit) {
     this.nom_produits = produit.nom_produits;
     this.image_produits = produit.image_produits;
     this.prix_produits = produit.prix_produits;
 };
 
 Produit.create = (newProduit, result) => {
-    sql.query("INSERT INTO produit SET ?", newProduit, (err, res) => {
+    sql.query("INSERT INTO produits SET ?", newProduit, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);

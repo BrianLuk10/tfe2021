@@ -40,6 +40,8 @@ export default class Caisse extends React.Component {
       perPage: 20,
       currentPage: 0,
       caisse: [],
+      categorie: "",
+      value: "Tout",
       show: false,
       article: [],
     }
@@ -113,9 +115,14 @@ export default class Caisse extends React.Component {
     axios.get(`http://localhost:3030/produit`)
       .then(res => {
         let filter;
-        filter = res.data;
+        if (this.state.value == 'Tout') {
+          filter = res.data
+        }
+        else {
+          filter = res.data.filter(x => x.categorie_produits == this.state.value)
+        }
         const posts = filter.map(obj =>
-          ({ id: obj.id_produits, nom: obj.nom_produits, prix: obj.prix_produits, image: obj.image_produits })
+          ({ id: obj.id_produits, nom: obj.nom_produits, prix: obj.prix_produits, categorie: obj.categorie_produits, image: obj.image_produits })
         );
         const slice = posts.slice(this.state.offset, this.state.offset + this.state.perPage)
         const postData = slice.map(pd => <React.Fragment>
@@ -186,7 +193,6 @@ export default class Caisse extends React.Component {
           <div className="Total">
             Total à payer: {prixTotal.toFixed(2)} €
           </div>
-          <button className="btn btn-info" onClick={this.reset}>confirmer</button>
           <Link to="/ticket">
             <button onClick={this.reset}>
               <span>ticket</span>
@@ -195,12 +201,22 @@ export default class Caisse extends React.Component {
         </div>
         <div class='col-lg-9 col-sm-12 right'>
 
+
           <Modal show={this.state.show} handleClose={this.hideModal} validerModal={this.validerModal}>
             <div id="img1" />
             <div id="nom"></div>
             <div id="prix">€</div>
           </Modal>
           <div className='container'>
+            <div onChange={this.onChangeValue}>
+              <input type="radio" value="Tout" name='categorie' /> Tout
+              <input type="radio" value="fleur" name='categorie' /> fleur
+              <input type="radio" value="décoration" name='categorie' /> Décoration
+              <input type="radio" value="Tout" name='categorie' /> Tout
+              <input type="radio" value="fleur" name='categorie' /> fleur
+              <input type="radio" value="décoration" name='categorie' /> Décoration
+            </div>
+
             {this.state.postData}
           </div>
           <ReactPaginate

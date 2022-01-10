@@ -4,52 +4,40 @@ import ReactToPrint from 'react-to-print';
 
 function PrintingClass() {
 
-  let articleShow;
-  let posts;
+  const [result, setResult] = useState("")
 
-  useEffect(() => {
-
-  }, [])
-
-  let componentRef = useRef(null)
-
-  let data = JSON.parse(sessionStorage.getItem('save'))
-  sessionStorage.setItem('caisse', JSON.stringify(data))
-  let article = JSON.parse(sessionStorage.getItem('save'))
-  let i = 0;
-  try {
-    posts = article.map(obj => ({
-      articleId: i++,
-      id: obj.id,
-      nom: obj.nom,
-      prix: obj.prix,
-      nombre: obj.nombre
-    }));
-    articleShow = posts.map(pd => <React.Fragment>
-      <div>
-        <div>{pd.nom}&nbsp;x{pd.nombre}&nbsp;{(pd.prix * pd.nombre)}</div>
-      </div>
-    </React.Fragment>)
-  }
-  catch {
-    console.log("pas d'article")
+  const calculer = (e) => {
+    setResult(result.concat(e.target.name))
   }
 
-  console.log(articleShow)
-  console.log(posts)
+  const clear = () => {
+    setResult("");
+  }
 
+  const backspace = () => {
+    setResult(result.slice(0, result.length - 1))
+  }
 
   return (
     <div>
-      <ReactToPrint
-        trigger={() =>
-          <div>
-            <button>print</button>
-          </div>
-        }
-        content={() => componentRef}
-      />
-      <span ref={el => componentRef = el}>{articleShow}</span>
+      <input type="text" value={result} />
+      <div>
+        <button id="clear" onClick={clear}>clear</button>
+        <button id="backspace" onClick={backspace}>C</button>
+        <button name="1" onClick={calculer}>1</button>
+        <button name="2" onClick={calculer}>2</button>
+        <button name="3" onClick={calculer}>3</button>
+        <button name="4" onClick={calculer}>4</button>
+        <button name="5" onClick={calculer}>5</button>
+        <button name="6" onClick={calculer}>6</button>
+        <button name="7" onClick={calculer}>7</button>
+        <button name="8" onClick={calculer}>8</button>
+        <button name="9" onClick={calculer}>9</button>
+        <button name="+" onClick={calculer}>+</button>
+        <button name="-" onClick={calculer}>-</button>
+        <button name="/" onClick={calculer}>/</button>
+        <button name="*" onClick={calculer}>*</button>
+      </div>
     </div>
   )
 }

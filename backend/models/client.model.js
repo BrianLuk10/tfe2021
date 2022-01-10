@@ -1,14 +1,14 @@
 const sql = require("./db.js");
 
 // constructor
-const Client = function(client) {
+const Client = function (client) {
     this.nom_clients = client.nom_clients;
     this.prenom_clients = client.prenom_clients;
     this.mail_clients = client.mail_clients;
 };
 
 Client.create = (newClient, result) => {
-    sql.query("INSERT INTO client SET ?", newClient, (err, res) => {
+    sql.query("INSERT INTO clients SET ?", newClient, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
