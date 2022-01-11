@@ -8,9 +8,10 @@ exports.create = (req, res) => {
     }
 
     const produit = new Produit({
-        nom_produit: req.body.nom_produit,
-        image_produit: req.body.image_produit,
-        prix_produit: req.body.prix_produit,
+        nom_produits: req.body.nom_produits,
+        image_produits: req.body.image_produits,
+        prix_produits: req.body.prix_produits,
+        categorie_produits: req.body.categorie_produits
     });
 
     Produit.create(produit, (err, data) => {
@@ -31,7 +32,7 @@ exports.findAll = (req, res) => {
                     err.message || "Some error occurred while retrieving produit."
             });
         else
-        res.send(data);
+            res.send(data);
     });
 
 };

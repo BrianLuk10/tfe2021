@@ -6,6 +6,7 @@ import Connexion from "../components/connexion/Connexion";
 import { Button } from "react-bootstrap";
 import useToken from '../components/connexion/useToken';
 import Ticket from '../components/caisse/Ticket';
+import AjoutProduit from "../components/ajoutProduit/AjoutProduit"
 
 export default function App() {
   /*
@@ -28,9 +29,9 @@ export default function App() {
             <span>Dashboard</span>
           </Button>
         </Link>
-        <Link to="/ticket">
+        <Link to="/ajoutProduit">
           <Button>
-            <span>ticket</span>
+            <span>Ajouter un produit</span>
           </Button>
         </Link>
         <Switch>
@@ -45,6 +46,9 @@ export default function App() {
           </Route>
           <Route path="/ticket">
             <Ticket />
+          </Route>
+          <Route path="/ajoutProduit">
+            <AjoutProduit />
           </Route>
         </Switch>
       </BrowserRouter>
