@@ -122,7 +122,7 @@ export default class Caisse extends React.Component {
           filter = res.data.filter(x => x.categorie_produits == this.state.value)
         }
         const posts = filter.map(obj =>
-          ({ id: obj.id_produits, nom: obj.nom_produits, prix: obj.prix_produits, categorie: obj.categorie_produits, image: obj.image_produits })
+          ({ id: obj.id_produits, nom: obj.nom_produits, prix: obj.prix_produits, categorie: obj.categorie_produits, image: obj.image_produits, stock: obj.stock })
         );
         const slice = posts.slice(this.state.offset, this.state.offset + this.state.perPage)
         const postData = slice.map(pd => <React.Fragment>
@@ -130,10 +130,7 @@ export default class Caisse extends React.Component {
             <img className={"image"} src={`${pd.image}`} onClick={() => this.showModal(pd)} data-arg1={pd} />
             <div>{pd.nom}</div>
             <div>{pd.prix.toFixed(2)}€</div>
-            <div>
-              <button className='btn btn-info' onClick={this.test}>
-                Ajouter</button>
-            </div>
+            <div>stock : {pd.stock}</div>
           </div>
         </React.Fragment>)
         this.setState({

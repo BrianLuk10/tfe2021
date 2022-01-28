@@ -22,7 +22,7 @@ Produit.create = (newProduit, result) => {
 };
 
 Produit.findById = (id_produits, result) => {
-    sql.query(`SELECT * FROM produits WHERE id_produits = ${id_produits}`, (err, res) => {
+    sql.query(`SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits and p.id_produits =  ${id_produits} group by p.id_produits`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -60,7 +60,7 @@ Produit.findByMail = (mail_Produits, result) => {
 */
 
 Produit.getAll = result => {
-    sql.query("SELECT * FROM produits", (err, res) => {
+    sql.query("SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits group by p.id_produits", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

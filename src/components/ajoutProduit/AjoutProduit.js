@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import "./AjoutProduit.css";
 
+const current_date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
 
 export default class Caisse extends React.Component {
     constructor(props) {
@@ -11,7 +13,10 @@ export default class Caisse extends React.Component {
             image_produits: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png',
             prix_produits: 0.00,
             categorie_produits: 'fleur',
+            stock: 0,
+            date_fournissement: current_date,
         }
+
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -29,9 +34,18 @@ export default class Caisse extends React.Component {
         console.log(this.state)
         axios.post('http://localhost:3030/produit', this.state)
             .then(response => {
-                console.log(response)
+                const data_fournissement = {
+                    "id_produits": response.data.id,
+                    "date_fournissement": this.state.date_fournissement,
+                    "stock_produits": this.state.stock,
+                    "exp_date": null
+                }
+                console.log(data_fournissement)
+                axios.post('http://localhost:3030/fournissement/', data_fournissement)
+                    .then(response => {
+                        console.log(response)
+                    })
             })
-
     }
 
     render() {
@@ -53,7 +67,7 @@ export default class Caisse extends React.Component {
                             </div>
                             <div>
                                 <label htmlFor="Prix">Prix :</label>
-                                <input type="number" min="0" id="prix_produits" name="prix_produits" value={this.state.prix_produits} onChange={this.handleChange}
+                                <input type="number" min="0" step='.01' id="prix_produits" name="prix_produits" value={this.state.prix_produits} onChange={this.handleChange}
                                     required />
                             </div>
                             <div>
@@ -64,6 +78,17 @@ export default class Caisse extends React.Component {
                                     <option value="décoration">décoration</option>
                                 </select>
 
+                            </div>
+
+                            <div>
+                                <label htmlFor="Stock">En stock :</label>
+                                <input type="number" min="0" step='1' id="stock" name="stock" value={this.state.stock} onChange={this.handleChange}
+                                    required />
+                            </div>
+                            <div>
+                                <label htmlFor="Date">Date & heure du fournissement :</label>
+                                <input type="datetime-local" id="data_fournissement" name="data_fournissement" value={this.state.data_fournissement}
+                                    onChange={this.handleChange} required />
                             </div>
                             <div className="confirmer">
                                 <button className='btn btn-primary' type="submit" id='sub' name='sub'>S'inscrire</button>

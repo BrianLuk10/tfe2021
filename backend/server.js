@@ -16,18 +16,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-    res.json("Bienvenue dans l'API fleuriste.");
+  res.json("Bienvenue dans l'API fleuriste.");
+});
+
+app.use('/token', (req, res) => {
+  res.send({
+    token: 'ymdC1VG8lMNfqaEZ0lI7puDg8vw'
   });
-  
-  app.use('/token', (req, res) => {
-    res.send({
-      token: 'ymdC1VG8lMNfqaEZ0lI7puDg8vw'
-    });
-  });
+});
 
 
 require("./routes/client.route.js")(app);
 require("./routes/produit.route.js")(app);
+require("./routes/fournissement.route.js")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
