@@ -1,45 +1,67 @@
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactToPrint from 'react-to-print';
-
-
-function PrintingClass() {
-
-  const [result, setResult] = useState("")
-
-  const calculer = (e) => {
-    setResult(result.concat(e.target.name))
+export default class PrintingClass extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      display: "",
+      value: "32"
+    }
   }
 
-  const clear = () => {
-    setResult("");
+  componentDidMount() {
+    axios.get("http://localhost:3030/produit")
+      .then(res => {
+        const posts = res.data.map(obj =>
+          ({ id: obj.id_produits, nom: obj.nom_produits, prix: obj.prix_produits, categorie: obj.categorie_produits, image: obj.image_produits, stock: obj.stock })
+        );
+        const postData = posts.map(pd =>
+          <option value={pd.id}>{pd.nom}</option>
+        )
+        console.log(postData)
+
+        this.setState({ postData });
+        this.setState({ posts });
+      })
   }
 
-  const backspace = () => {
-    setResult(result.slice(0, result.length - 1))
-  }
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+    axios.get("http://localhost:3030/produit/" + this.state.value)
+      .then(res => {
+        console.log(res.data)
+      })
+  };
 
-  return (
-    <div>
-      <input type="text" value={result} />
+  render() {
+    return (
       <div>
-        <button id="clear" onClick={clear}>clear</button>
-        <button id="backspace" onClick={backspace}>C</button>
-        <button name="1" onClick={calculer}>1</button>
-        <button name="2" onClick={calculer}>2</button>
-        <button name="3" onClick={calculer}>3</button>
-        <button name="4" onClick={calculer}>4</button>
-        <button name="5" onClick={calculer}>5</button>
-        <button name="6" onClick={calculer}>6</button>
-        <button name="7" onClick={calculer}>7</button>
-        <button name="8" onClick={calculer}>8</button>
-        <button name="9" onClick={calculer}>9</button>
-        <button name="+" onClick={calculer}>+</button>
-        <button name="-" onClick={calculer}>-</button>
-        <button name="/" onClick={calculer}>/</button>
-        <button name="*" onClick={calculer}>*</button>
+        <div>
+          <select onChange={this.handleChange} value={this.state.value}>
+            {this.state.postData}
+          </select>
+          {this.state.value}
+        </div>
+        <div>
+          <form onSubmit={this.submitHandler}>
+            <div className={"row-wrapper"}>
+              <div className="column-wrapper contact">
+                <div className="confirmer">
+                  <button
+                    className="btn btn-primary"
+                    type="submit"
+                    id="sub"
+                    name="sub"
+                  >
+                    confirmer
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
-
-export default PrintingClass;
