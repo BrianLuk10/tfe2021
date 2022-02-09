@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Posts() {
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [
+    image_produits,
+    nom_produits,
+    prix_produits,
+    categorie_produits,
+    stock,
+  ] = useState("");
   useEffect(() => {
     axios.get(`http://localhost:3030/produit`).then((response) => {
       setAPIData(response.data);
@@ -47,11 +55,16 @@ export default function Posts() {
               );
             })
           : APIData.map((item) => {
+              let url = "/modifierProduitPage/" + item.id_produits;
+              console.log(url);
               return (
                 <div>
-                  <ul className="list-group list-group-horizontal">
+                  <ul className="list-group">
                     <li className="list-group-item">
                       {item.nom_produits} &nbsp;&nbsp; stock : {item.stock}
+                      <Link to={`${url}`}>
+                        <button>produit</button>
+                      </Link>
                     </li>
                   </ul>
                 </div>

@@ -8,6 +8,7 @@ import useToken from "../components/connexion/useToken";
 import Ticket from "../components/caisse/Ticket";
 import AjoutProduit from "../components/ajoutProduit/AjoutProduit";
 import ModifierProduit from "../components/modifierProduit/modifierProduit";
+import ModifierProduitPage from "../components/modifierProduit/modifierProduitpage";
 
 export default function App() {
   /*
@@ -55,6 +56,9 @@ export default function App() {
           </Route>
           <Route path="/modifierProduit">
             <ModifierProduit />
+          </Route>
+          <Route path="/modifierProduitpage/:id_produit">
+            <ModifierProduitPage />
           </Route>
           <Route path="/ajoutProduit">
             <AjoutProduit />
