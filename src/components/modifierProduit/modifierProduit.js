@@ -44,11 +44,17 @@ export default function Posts() {
       <div>
         {searchInput.length > 1
           ? filteredResults.map((item) => {
+              let url = "/modifierProduitPage/" + item.id_produits;
+              console.log(url);
               return (
                 <div>
                   <ul className="list-group">
                     <li className="list-group-item">
                       {item.nom_produits} &nbsp;&nbsp; stock : {item.stock}
+                      &nbsp;&nbsp;
+                      <Link to={`${url}`}>
+                        <button>produit</button>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -62,6 +68,7 @@ export default function Posts() {
                   <ul className="list-group">
                     <li className="list-group-item">
                       {item.nom_produits} &nbsp;&nbsp; stock : {item.stock}
+                      &nbsp;&nbsp;
                       <Link to={`${url}`}>
                         <button>produit</button>
                       </Link>
