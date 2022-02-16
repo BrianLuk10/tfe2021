@@ -1,50 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 
-let dialogStyles = {
-  width: "500px",
-  maxWidth: "100%",
-  margin: "0 auto",
-  position: "fixed",
-  left: "50%",
-  top: "50%",
-  transform: "translate(-50%,-50%)",
-  zIndex: "999",
-  backgroundColor: "#eee",
-  padding: "10px 20px 40px",
-  borderRadius: "8px",
-  display: "flex",
-  flexDirection: "column",
-};
-
-let dialogCloseButtonStyles = {
-  marginBottom: "15px",
-  padding: "3px 8px",
-  cursor: "pointer",
-  borderRadius: "50%",
-  border: "none",
-  width: "30px",
-  height: "30px",
-  fontWeight: "bold",
-  alignSelf: "flex-end",
-};
-
-class Dialog extends Component {
-  render() {
-    let dialog = (
-      <div style={dialogStyles}>
-        <button style={dialogCloseButtonStyles} onClick={this.props.onClose}>
-          X
-        </button>
-
-        <div>{this.props.children}</div>
-      </div>
-    );
-
-    if (!this.props.isOpen) {
-      dialog = null;
-    }
-    return <div>{dialog}</div>;
+export default function Dialog({ show, confirm, cancel, cancelDialog }) {
+  if (!show) {
+    return <></>;
   }
+  return (
+    <div className="overlay">
+      <div className="dialog">
+        <div className="dialog__content">
+          <h2 className="dialog__title">Supprimer le produit?</h2>
+          <p className="dialog__description">
+            Voule-vous vraiment supprimer le produit ?
+          </p>
+        </div>
+        <hr />
+        <div className="dialog__footer">
+          <button className="dialog__cancel" onClick={cancel}>
+            Annuler
+          </button>
+          <button className="dialog__confirm" onClick={confirm}>
+            Confirmer
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export default Dialog;

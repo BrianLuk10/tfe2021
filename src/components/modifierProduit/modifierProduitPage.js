@@ -15,9 +15,30 @@ export default class ModifierProduitPage extends React.Component {
       prix_produits: "",
       categorie_produits: "",
       stock: "",
+      showDialog: false,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.openDialog = this.openDialog.bind(this);
   }
+
+  openDialog() {
+    this.setState({
+      showDialog: true,
+    });
+  }
+
+  confirm = () => {
+    console.log("oui");
+    this.setState({
+      showDialog: false,
+    });
+  };
+
+  cancelDialog = () => {
+    this.setState({
+      showDialog: false,
+    });
+  };
 
   handleChange(e) {
     const { name, value } = e.target;
@@ -157,32 +178,22 @@ export default class ModifierProduitPage extends React.Component {
                     S'inscrire
                   </button>
                 </div>
-
-                <div class="mt-10 text-center">
-                  <button class="btn">Delete Task</button>
-                  <button class="btn">Delete User</button>
-                </div>
-
-                <div class="overlay">
-                  <div class="dialog">
-                    <div class="dialog__content">
-                      <h2 class="dialog__title">Delete a task?</h2>
-                      <p class="dialog__description">
-                        Are you sure you want to delete this task?
-                      </p>
-                    </div>
-
-                    <hr />
-
-                    <div class="dialog__footer">
-                      <button class="dialog__cancel">Cancel</button>
-                      <button class="dialog__confirm">Yes, delete it</button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </form>
+          <div>
+            <div className="mt-10 text-center">
+              <button className="btn" onClick={this.openDialog}>
+                Supprimer produit
+              </button>
+            </div>
+
+            <Dialog
+              show={this.state.showDialog}
+              cancel={this.cancelDialog}
+              confirm={this.confirm}
+            />
+          </div>
         </div>
         <Link to="/modifierProduit">retour page précédente</Link>
       </div>
