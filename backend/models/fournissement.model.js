@@ -102,7 +102,7 @@ Fournissement.updateById = (id, Fournissement, result) => {
 
 Fournissement.remove = (id, result) => {
   sql.query(
-    "DELETE FROM fournissements WHERE id_fournisement = ?",
+    "DELETE FROM fournissements WHERE id_produits = ?",
     id,
     (err, res) => {
       if (err) {

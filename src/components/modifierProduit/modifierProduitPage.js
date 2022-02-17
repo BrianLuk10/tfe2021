@@ -28,10 +28,23 @@ export default class ModifierProduitPage extends React.Component {
   }
 
   confirm = () => {
-    console.log("oui");
+    axios
+      .delete("http://localhost:3030/produit/" + this.state.id_produitPage)
+      .then((res) => {
+        console.log(res);
+        axios
+          .delete(
+            "http://localhost:3030/fournissement/" + this.state.id_produitPage
+          )
+          .then((res) => {
+            console.log(res);
+          });
+      });
+
     this.setState({
       showDialog: false,
     });
+    window.history.back();
   };
 
   cancelDialog = () => {
@@ -47,12 +60,6 @@ export default class ModifierProduitPage extends React.Component {
 
   submitHandler = (e) => {
     e.preventDefault();
-    let url = window.location.href;
-    let getNumber = url
-      .replace(/[^0-9]/g, " ")
-      .trim()
-      .split(/\s+/);
-    let result = parseInt(getNumber[getNumber.length - 1], 10);
     axios
       .put("http://localhost:3030/produit/" + this.state.id_produitPage, {
         nom_produits: this.state.nom_produits,
