@@ -11,6 +11,18 @@ hr {
   border-top: 1px dashed;
 }
 
+.fleur {
+  background-color: #47ccde;
+}
+
+.décoration {
+  background-color: crimson;
+}
+
+.consommable {
+  background-color: darkorange;
+}
+
 .container {
   display: grid;
   grid-auto-columns: max-content;
@@ -98,7 +110,7 @@ hr {
 
 .left {
   background-color: #2a2121;
-  color: rgb(16, 67, 236);
+  color: rgb(16, 185, 214);
 }
 .right {
   display: flex;

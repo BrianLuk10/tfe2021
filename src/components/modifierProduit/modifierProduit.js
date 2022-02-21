@@ -38,7 +38,7 @@ export default function Posts() {
     <div style={{ padding: 20 }}>
       <input
         icon="search"
-        placeholder="Search..."
+        placeholder="Rechercher..."
         onChange={(e) => searchItems(e.target.value)}
       />
       <div>

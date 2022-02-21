@@ -182,7 +182,7 @@ export default class ModifierProduitPage extends React.Component {
                     id="sub"
                     name="sub"
                   >
-                    S'inscrire
+                    Confirmer
                   </button>
                 </div>
               </div>
