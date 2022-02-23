@@ -19,7 +19,6 @@ export default function App() {
   */
   return (
     <div className="wrapper">
-      <h1>Application</h1>
       <BrowserRouter>
         <Link to="/caisse">
           <Button>

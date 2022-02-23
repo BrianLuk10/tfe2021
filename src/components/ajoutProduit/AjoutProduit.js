@@ -133,7 +133,7 @@ export default class Caisse extends React.Component {
                   id="sub"
                   name="sub"
                 >
-                  S'inscrire
+                  Ajouter
                 </button>
               </div>
             </div>

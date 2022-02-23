@@ -143,7 +143,7 @@ export default class Caisse extends React.Component {
             />
             <div>{pd.nom}</div>
             <div>{pd.prix.toFixed(2)}€</div>
-            <div>stock : {pd.stock}</div>
+            <div className={`test${pd.stock}`}>stock : {pd.stock}</div>
           </div>
         </React.Fragment>
       ));
