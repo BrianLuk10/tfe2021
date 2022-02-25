@@ -30,11 +30,22 @@ class Create extends Component {
     }
   };
 
+  downloadTxtFile = () => {
+    const element = document.createElement("a");
+    const file = new Blob([document.getElementById('myInput').value], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = "myFile.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
+
   render() {
     return (
       <div>
         <input type="file" onChange={this.showFile} />
-        <div id="show-text">Choose text File</div>
+        <div id="show-text">Choisir le fichier .txt</div>
+        <textarea id="myInput" rows={5} />
+        <button onClick={this.downloadTxtFile}>Crée un fichier .txt</button>
       </div>
     );
   }
