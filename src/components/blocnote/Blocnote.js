@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import axios from "axios";
 
-class Create extends Component {
+class Blocnote extends Component {
   constructor() {
     super();
     this.state = {
@@ -72,4 +72,4 @@ class Create extends Component {
   }
 }
 
-export default Create;
+export default Blocnote;

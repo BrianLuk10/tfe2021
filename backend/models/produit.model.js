@@ -64,7 +64,7 @@ Produit.findByMail = (mail_Produits, result) => {
 
 Produit.getAll = (result) => {
   sql.query(
-    "SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits group by p.id_produits",
+    "SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits and statut='disponible' group by p.id_produits",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -76,6 +76,23 @@ Produit.getAll = (result) => {
     }
   );
 };
+
+Produit.getAll5 = (result) => {
+  sql.query(
+    "SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits and statut='disponible' group by p.id_produits having SUM(f.stock_produits) < 6;",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+//SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits group by p.id_produits having SUM(f.stock_produits) < 6;
 
 Produit.updateById = (id, Produit, result) => {
   sql.query(
@@ -96,6 +113,38 @@ Produit.updateById = (id, Produit, result) => {
 
       console.log("updated Produit: ", { id: id, ...Produit });
       result(null, { id: id, ...Produit });
+    }
+  );
+};
+
+Produit.modifyStatus = (id, result) => {
+  sql.query(
+    `UPDATE Produits SET statut="indisponible", date_modification=now() WHERE id_produits = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      console.log("modify Produit: ", { id: id });
+      result(null, res);
+    }
+  );
+};
+
+Produit.restoreStatus = (id, result) => {
+  sql.query(
+    `UPDATE Produits SET statut="disponible", date_modification=now() WHERE id_produits = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      console.log("restored Produit: ", { id: id });
+      result(null, res);
     }
   );
 };

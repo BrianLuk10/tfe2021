@@ -29,16 +29,9 @@ export default class ModifierProduitPage extends React.Component {
 
   confirm = () => {
     axios
-      .delete("http://localhost:3030/produit/" + this.state.id_produitPage)
+      .put("http://localhost:3030/produitModify/" + this.state.id_produitPage)
       .then((res) => {
         console.log(res);
-        axios
-          .delete(
-            "http://localhost:3030/fournissement/" + this.state.id_produitPage
-          )
-          .then((res) => {
-            console.log(res);
-          });
       });
 
     this.setState({

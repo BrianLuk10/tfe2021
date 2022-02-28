@@ -1,14 +1,19 @@
-module.exports = app => {
-    const produit = require("../controllers/produit.controller.js");
+module.exports = (app) => {
+  const produit = require("../controllers/produit.controller.js");
 
-    app.post("/produit", produit.create);
+  app.post("/produit", produit.create);
 
-    app.get("/produit", produit.findAll);
+  app.get("/produit", produit.findAll);
 
-    app.get("/produit/:id", produit.findOne);
+  app.get("/produit5", produit.findAll5);
 
-    app.put("/produit/:id", produit.update);
+  app.get("/produit/:id", produit.findOne);
 
-    app.delete("/produit/:id", produit.delete);
+  app.put("/produit/:id", produit.update);
 
+  app.put("/produitModify/:id", produit.modifyStatus);
+
+  app.put("/produitRestore/:id", produit.restoreStatus);
+
+  app.delete("/produit/:id", produit.delete);
 };
