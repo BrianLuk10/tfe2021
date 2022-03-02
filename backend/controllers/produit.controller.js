@@ -34,6 +34,16 @@ exports.findAll = (req, res) => {
   });
 };
 
+exports.findAllIndisponible = (req, res) => {
+  Produit.getAllIndisponible((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving produit.",
+      });
+    else res.send(data);
+  });
+};
+
 exports.findAll5 = (req, res) => {
   Produit.getAll5((err, data) => {
     if (err)

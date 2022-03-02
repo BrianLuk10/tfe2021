@@ -5,6 +5,8 @@ module.exports = (app) => {
 
   app.get("/produit", produit.findAll);
 
+  app.get("/produit/indisponible", produit.findAllIndisponible);
+
   app.get("/produit5", produit.findAll5);
 
   app.get("/produit/:id", produit.findOne);

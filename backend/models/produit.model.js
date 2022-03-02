@@ -77,6 +77,21 @@ Produit.getAll = (result) => {
   );
 };
 
+Produit.getAllIndisponible = (result) => {
+  sql.query(
+    "SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock, p.date_modification FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits and statut='indisponible' group by p.id_produits order by p.date_modification asc;",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
 Produit.getAll5 = (result) => {
   sql.query(
     "SELECT p.id_produits, p.image_produits, p.nom_produits, p.prix_produits, p.categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join fournissements as f where p.id_produits = f.id_produits and statut='disponible' group by p.id_produits having SUM(f.stock_produits) < 6;",

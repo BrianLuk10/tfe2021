@@ -10,6 +10,7 @@ import AjoutProduit from "../components/ajoutProduit/AjoutProduit";
 import ModifierProduit from "../components/modifierProduit/modifierProduit";
 import ModifierProduitPage from "../components/modifierProduit/modifierProduitpage";
 import Blocnote from "../components/blocnote/blocnote";
+import ProduitIndiponible from "../components/produitIndisponible/produitIndisponible";
 
 export default function App() {
   /*
@@ -41,6 +42,11 @@ export default function App() {
             <span>Ajouter un produit</span>
           </Button>
         </Link>
+        <Link to="/historiqueSupprimé">
+          <Button>
+            <span>Historique des produits supprimés</span>
+          </Button>
+        </Link>
         <Link to="/blocnote">
           <Button>
             <span>bloc note</span>
@@ -68,6 +74,9 @@ export default function App() {
           </Route>
           <Route path="/ajoutProduit">
             <AjoutProduit />
+          </Route>
+          <Route path="/historiqueSupprimé">
+            <ProduitIndiponible />
           </Route>
           <Route path="/blocnote">
             <Blocnote />

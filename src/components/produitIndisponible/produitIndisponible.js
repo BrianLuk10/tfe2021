@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
-export default function ModifierProduit() {
+export default function ProduitIndiponible() {
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -12,9 +11,15 @@ export default function ModifierProduit() {
     prix_produits,
     categorie_produits,
     stock,
+    date_modification,
   ] = useState("");
   useEffect(() => {
-    axios.get(`http://localhost:3030/produit`).then((response) => {
+    axios.get(`http://localhost:3030/produit/indisponible`).then((response) => {
+      for (let i = 0; i < response.data.length; i++) {
+        response.data[i].date_modification = response.data[i].date_modification
+          .slice(0, 19)
+          .replace("T", " ");
+      }
       setAPIData(response.data);
     });
   }, []);
@@ -50,14 +55,10 @@ export default function ModifierProduit() {
                 <div>
                   <ul className="list-group">
                     <li className="list-group-item">
-                      <Link to={`${url}`}>
-                        <button>
-                          {" "}
-                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                          stock : {item.stock}
-                          &nbsp;&nbsp;
-                        </button>
-                      </Link>
+                      Nom du produit :{item.nom_produits} &nbsp;&nbsp; stock :{" "}
+                      {item.stock}
+                      &nbsp;&nbsp; Date de modification :
+                      {item.date_modification}
                     </li>
                   </ul>
                 </div>
@@ -70,14 +71,10 @@ export default function ModifierProduit() {
                 <div>
                   <ul className="list-group">
                     <li className="list-group-item">
-                      <Link to={`${url}`}>
-                        <button>
-                          {" "}
-                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                          stock : {item.stock}
-                          &nbsp;&nbsp;
-                        </button>
-                      </Link>
+                      Nom du produit : {item.nom_produits} &nbsp;&nbsp; stock :{" "}
+                      {item.stock}
+                      &nbsp;&nbsp; Date de modification :
+                      {item.date_modification}
                     </li>
                   </ul>
                 </div>
