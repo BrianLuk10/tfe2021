@@ -111,7 +111,7 @@ Produit.getAll5 = (result) => {
 
 Produit.updateById = (id, Produit, result) => {
   sql.query(
-    `UPDATE Produits SET nom_produits = ?, image_produits = ?, prix_produits = ?, categorie_produits = ? WHERE id_produits = ${id}`,
+    `UPDATE Produits SET nom_produits = ?, image_produits = ?, prix_produits = ?, categorie_produits = ?, date_modification=now() WHERE id_produits = ${id}`,
     [
       Produit.nom_produits,
       Produit.image_produits,
