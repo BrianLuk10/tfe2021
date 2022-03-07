@@ -174,7 +174,6 @@ Forms
 2. Remove the margin in Firefox and Safari.
 */
 
-button,
 input,
 optgroup,
 select,
@@ -190,7 +189,6 @@ Remove the inheritance of text transform in Edge and Firefox.
 1. Remove the inheritance of text transform in Firefox.
 */
 
-button,
 select {
   /* 1 */
   text-transform: none;
@@ -199,10 +197,6 @@ select {
 /**
 Correct the inability to style clickable types in iOS and Safari.
 */
-
-button {
-  -webkit-appearance: button;
-}
 
 /**
 Remove the inner border and padding in Firefox.
@@ -290,20 +284,10 @@ pre {
   margin: 0;
 }
 
-button {
-  background-color: transparent;
-  background-image: none;
-}
-
 /**
  * Work around a Firefox/IE bug where the transparent `button` background
  * results in a loss of the default `button` focus styles.
  */
-
-button:focus {
-  outline: 1px dotted;
-  outline: 5px auto -webkit-focus-ring-color;
-}
 
 fieldset {
   margin: 0;
@@ -421,10 +405,6 @@ textarea::placeholder {
   color: #9ca3af;
 }
 
-button {
-  cursor: pointer;
-}
-
 table {
   border-collapse: collapse;
 }
@@ -457,7 +437,6 @@ a {
  * normalize.css.
  */
 
-button,
 input,
 optgroup,
 select,

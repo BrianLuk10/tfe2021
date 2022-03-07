@@ -8,15 +8,18 @@ const Historique = function (historique) {
 };
 
 Historique.getAll = (result) => {
-  sql.query("SELECT * from historique_produits", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+  sql.query(
+    "SELECT h.id_historique, h.id_produits, h.nom_produits, h.prix_produits, h.statut, h.date_modification, h.categorie_produits, sum(f.stock_produits) as stock FROM historique_produits as h inner join fournissements as f where h.id_produits = f.id_produits group by h.id_historique",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
 
-    result(null, res);
-  });
+      result(null, res);
+    }
+  );
 };
 
 Historique.remove = (id, result) => {

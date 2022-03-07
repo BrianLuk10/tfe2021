@@ -111,7 +111,7 @@ Produit.getAll5 = (result) => {
 
 Produit.updateById = (id, Produit, result) => {
   sql.query(
-    `UPDATE Produits SET nom_produits = ?, image_produits = ?, prix_produits = ?, categorie_produits = ?, date_modification=now() WHERE id_produits = ${id}`,
+    `UPDATE Produits SET nom_produits = ?, image_produits = ?, prix_produits = ?, categorie_produits = ?, date_modification=date_add(now(),interval 1 hour) WHERE id_produits = ${id}`,
     [
       Produit.nom_produits,
       Produit.image_produits,
@@ -134,7 +134,7 @@ Produit.updateById = (id, Produit, result) => {
 
 Produit.modifyStatus = (id, result) => {
   sql.query(
-    `UPDATE Produits SET statut="indisponible", date_modification=now() WHERE id_produits = ${id}`,
+    `UPDATE Produits SET statut="indisponible", date_modification=date_add(now(),interval 1 hour) WHERE id_produits = ${id}`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

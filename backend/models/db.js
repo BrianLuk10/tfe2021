@@ -8,11 +8,13 @@ const connection = mysql.createConnection({
   password: dbConfig.PASSWORD,
   database: dbConfig.DB,
   multipleStatements: true,
+  dataStrings: true,
 });
 
 // open the MySQL connection
 connection.connect((error) => {
   if (error) throw error;
+  var d = new Date();
   console.log("Successfully connected to the database.");
 });
 
