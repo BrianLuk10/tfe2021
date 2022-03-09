@@ -65,7 +65,12 @@ class Blocnote extends Component {
       <div>
         <input type="file" onChange={this.showFile} />
         <div id="show-text">Choisir le fichier .txt</div>
-        <textarea id="myInput" rows={5} cols={75} value={this.state.text} />
+        <textarea
+          id="myInput"
+          rows={5}
+          cols={75}
+          defaultValue={this.state.text}
+        />
         <button onClick={this.downloadTxtFile}>Crée un fichier .txt</button>
       </div>
     );
