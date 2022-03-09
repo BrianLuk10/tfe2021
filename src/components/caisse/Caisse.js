@@ -75,6 +75,15 @@ export default class Caisse extends React.Component {
 
   reset = () => {
     sessionStorage.setItem("save", JSON.stringify(this.state.caisse));
+    console.log("caisse taille : " + this.state.caisse.length);
+    for (let i = 0; this.state.caisse.length > i; i++) {
+      axios.put(
+        "http://localhost:3030/fournissement/stock/" + this.state.caisse[i].id,
+        {
+          nombre: this.state.caisse[i].nombre,
+        }
+      );
+    }
     this.setState({ caisse: [] });
     prixTotal = 0;
     this.componentDidMount();
