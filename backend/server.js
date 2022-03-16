@@ -29,6 +29,8 @@ require("./routes/client.route.js")(app);
 require("./routes/produit.route.js")(app);
 require("./routes/fournissement.route.js")(app);
 require("./routes/historique.route.js")(app);
+require("./routes/commande.route.js")(app);
+
 // set port, listen for requests
 const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
