@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./modifierProduit.css";
 import Dialog from "./Dialog";
+import Confirmer from "./Confirmer";
 
 export default class ModifierProduitPage extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class ModifierProduitPage extends React.Component {
       categorie_produits: "",
       stock: "",
       showDialog: false,
+      showConfirm: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.openDialog = this.openDialog.bind(this);
@@ -26,6 +28,12 @@ export default class ModifierProduitPage extends React.Component {
       showDialog: true,
     });
   }
+
+  confirmer = () => {
+    this.setState({
+      showConfirm: false,
+    });
+  };
 
   confirm = () => {
     axios
@@ -71,6 +79,9 @@ export default class ModifierProduitPage extends React.Component {
             console.log(response);
           });
       });
+    this.setState({
+      showConfirm: true,
+    });
   };
 
   componentDidMount() {
@@ -192,6 +203,11 @@ export default class ModifierProduitPage extends React.Component {
               show={this.state.showDialog}
               cancel={this.cancelDialog}
               confirm={this.confirm}
+            />
+
+            <Confirmer
+              show={this.state.showConfirm}
+              confirmer={this.confirmer}
             />
           </div>
         </div>

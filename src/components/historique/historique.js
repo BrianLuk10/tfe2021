@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import "./historique.css";
+import Confirmer from "../modifierProduit/Confirmer";
 
 export default function Historique() {
   const [APIData, setAPIData] = useState([]);
@@ -17,6 +18,7 @@ export default function Historique() {
     statut,
     date_modification,
   ] = useState("");
+  const [showConfirm, setConfirm] = useState(false);
   useEffect(() => {
     axios.get(`http://localhost:3030/historique`).then((response) => {
       for (let i = 0; i < response.data.length; i++) {
@@ -43,8 +45,14 @@ export default function Historique() {
     }
   };
 
+  const confirmer = () => {
+    setConfirm((showConfirm) => !showConfirm);
+    window.history.back();
+  };
+
   const supprimerHistorique = (id) => {
     axios.delete(`http://localhost:3030/historique/` + id);
+    setConfirm((showConfirm) => !showConfirm);
   };
 
   return (
@@ -106,6 +114,7 @@ export default function Historique() {
                         </button>
                       </li>
                     </ul>
+                    <Confirmer show={showConfirm} confirmer={confirmer} />
                   </div>
                 );
               })}

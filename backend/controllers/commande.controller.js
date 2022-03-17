@@ -56,6 +56,17 @@ exports.findAll = (req, res) => {
   });
 };
 
+exports.findAllToday = (req, res) => {
+  Commande.getAllToday((err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving fournissement.",
+      });
+    else res.send(data);
+  });
+};
+
 exports.findOne = (req, res) => {
   Commande.findById(req.params.id, (err, data) => {
     if (err) {

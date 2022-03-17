@@ -11,64 +11,31 @@ class Create extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:3030/produit5").then((res) => {
+    axios.get("http://localhost:3030/commande/today").then((res) => {
       const data = res.data;
       const posts = data.map((obj) => ({
-        id: obj.id_produits,
-        nom: obj.nom_produits,
-        prix: obj.prix_produits,
-        categorie: obj.categorie_produits,
-        image: obj.image_produits,
-        stock: obj.stock,
+        id: obj.id_commandes,
+        id_produits: obj.id_produits,
+        nom: obj.nom,
+        prix: obj.prix_sep,
+        total: obj.id_total,
+        date_commandes: obj.date_commandes,
+        etat_commandes: obj.etat_commandes,
       }));
-      const postData = posts.map((pd) => `${pd.nom} stock : ${pd.stock} \n`);
+      const postData = posts.map((pd) => (
+        <React.Fragment>
+          <div>{pd.nom}</div>
+          <div>{pd.date_commandes}</div>
+        </React.Fragment>
+      ));
       this.setState({
-        text: postData,
+        postData,
       });
     });
   }
 
-  showFile = () => {
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-      var preview = document.getElementById("show-text");
-      var file = document.querySelector("input[type=file]").files[0];
-      var reader = new FileReader();
-
-      var textFile = /text.*/;
-
-      if (file.type.match(textFile)) {
-        reader.onload = function (event) {
-          preview.innerHTML = event.target.result;
-        };
-      } else {
-        preview.innerHTML = "<span class='error'>No file!</span>";
-      }
-      reader.readAsText(file);
-    } else {
-      alert("Error!");
-    }
-  };
-
-  downloadTxtFile = () => {
-    const element = document.createElement("a");
-    const file = new Blob([document.getElementById("myInput").value], {
-      type: "text/plain",
-    });
-    element.href = URL.createObjectURL(file);
-    element.download = "myFile.txt";
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
-  };
-
   render() {
-    return (
-      <div>
-        <input type="file" onChange={this.showFile} />
-        <div id="show-text">Choisir le fichier .txt</div>
-        <textarea id="myInput" rows={5} cols={75} value={this.state.text} />
-        <button onClick={this.downloadTxtFile}>Crée un fichier .txt</button>
-      </div>
-    );
+    return <div>{this.state.postData}</div>;
   }
 }
 

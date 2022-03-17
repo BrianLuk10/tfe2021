@@ -7,6 +7,8 @@ module.exports = (app) => {
 
   app.get("/commande", commande.findAll);
 
+  app.get("/commande/today", commande.findAllToday);
+
   app.get("/commande/days", commande.findAll7Days);
 
   app.get("/commande/month", commande.findAllMonth);

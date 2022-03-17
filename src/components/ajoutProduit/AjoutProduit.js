@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./AjoutProduit.css";
+import Confirmer from "../modifierProduit/Confirmer";
 
 const current_date = new Date().toISOString().slice(0, 19).replace("T", " ");
 
@@ -16,9 +17,15 @@ export default class Caisse extends React.Component {
       stock: 0,
       date_fournissement: current_date,
     };
-
+    this.state.showConfirm = false;
     this.handleChange = this.handleChange.bind(this);
   }
+
+  confirmer = () => {
+    this.setState({
+      showConfirm: false,
+    });
+  };
 
   handleChange(e) {
     const name = e.target.name;
@@ -43,6 +50,9 @@ export default class Caisse extends React.Component {
         .then((response) => {
           console.log(response);
         });
+    });
+    this.setState({
+      showConfirm: true,
     });
   };
 
@@ -136,6 +146,10 @@ export default class Caisse extends React.Component {
                   Ajouter
                 </button>
               </div>
+              <Confirmer
+                show={this.state.showConfirm}
+                confirmer={this.confirmer}
+              />
             </div>
           </div>
         </form>
