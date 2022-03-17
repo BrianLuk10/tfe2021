@@ -119,8 +119,8 @@ Fournissement2.decrementerStock = (id, Fournissement2, result) => {
         return;
       }
 
-      console.log("updated fournissement: ", { id: id, ...Fournissement });
-      result(null, { id: id, ...Fournissement });
+      console.log("updated fournissement: ", { id: id, ...Fournissement2 });
+      result(null, { id: id, ...Fournissement2 });
     }
   );
 };
@@ -164,3 +164,4 @@ Client.findCommandForClient = (ClientId, result) => {
 */
 
 module.exports = Fournissement;
+module.exports = Fournissement2;
