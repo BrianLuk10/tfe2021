@@ -9,7 +9,5 @@ module.exports = (app) => {
 
   app.put("/fournissement/:id", fournissement.update);
 
-  app.put("/fournissement/stock/:id", fournissement.decrementer);
-
   app.delete("/fournissement/:id", fournissement.delete);
 };
