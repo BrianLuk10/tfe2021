@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import axios from "axios";
+import { Doughnut } from "react-chartjs-2";
+import { Chart, ArcElement } from "chart.js";
+Chart.register(ArcElement);
 
+const data = {
+  labels: ["test", "test", "test"],
+  datasets: [
+    {
+      data: [12, 2, 16],
+    },
+  ],
+};
 class Create extends Component {
   constructor() {
     super();
@@ -35,7 +46,11 @@ class Create extends Component {
   }
 
   render() {
-    return <div>{this.state.postData}</div>;
+    return (
+      <div>
+        <Doughnut data={data}></Doughnut>
+      </div>
+    );
   }
 }
 
