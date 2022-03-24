@@ -49,7 +49,7 @@ export default function ModifierProduit() {
               return (
                 <div>
                   <ul className="list-group">
-                    <li className="list-group-item">
+                    <li key={item.nom_produits} className="list-group-item">
                       <Link to={`${url}`}>
                         <button>
                           {" "}
@@ -69,7 +69,7 @@ export default function ModifierProduit() {
               return (
                 <div>
                   <ul className="list-group">
-                    <li className="list-group-item">
+                    <li key={item.nom_produits} className="list-group-item">
                       <Link to={`${url}`}>
                         <button>
                           {" "}

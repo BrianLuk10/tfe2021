@@ -76,7 +76,7 @@ export default function Historique() {
                 return (
                   <div>
                     <ul className="list-group">
-                      <li className="list-group-item">
+                      <li key={item.id_produits} className="list-group-item">
                         id : {item.id_produits}
                         &nbsp;&nbsp; Nom du produit : {item.nom_produits}{" "}
                         &nbsp;&nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
@@ -95,7 +95,7 @@ export default function Historique() {
                 return (
                   <div>
                     <ul className="list-group">
-                      <li className="list-group-item">
+                      <li key={item.id_produits} className="list-group-item">
                         id : {item.id_produits}
                         &nbsp;&nbsp; Nom du produit : {item.nom_produits}{" "}
                         &nbsp;&nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
@@ -104,7 +104,7 @@ export default function Historique() {
                         &nbsp;&nbsp;status : {item.statut} &nbsp;&nbsp; Date de
                         modification : {item.date_modification}
                         <button
-                          class="button-40"
+                          className="button-40"
                           role="button"
                           onClick={() =>
                             supprimerHistorique(item.id_historique)

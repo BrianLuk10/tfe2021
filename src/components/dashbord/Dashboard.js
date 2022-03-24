@@ -1,26 +1,77 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import axios from "axios";
-import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement } from "chart.js";
-Chart.register(ArcElement);
+import { Doughnut, Bar } from "react-chartjs-2";
+import {
+  Chart,
+  ArcElement,
+  LineElement,
+  BarElement,
+  PointElement,
+  BarController,
+  BubbleController,
+  DoughnutController,
+  LineController,
+  PieController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+  RadialLinearScale,
+  TimeScale,
+  TimeSeriesScale,
+  Decimation,
+  Filler,
+  Legend,
+  Title,
+  Tooltip,
+} from "chart.js";
 
-const data = {
-  labels: ["test", "test", "test"],
-  datasets: [
-    {
-      data: [12, 2, 16],
-    },
-  ],
-};
+Chart.register(
+  ArcElement,
+  LineElement,
+  BarElement,
+  PointElement,
+  BarController,
+  BubbleController,
+  DoughnutController,
+  LineController,
+  PieController,
+  PolarAreaController,
+  RadarController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+  RadialLinearScale,
+  TimeScale,
+  TimeSeriesScale,
+  Decimation,
+  Filler,
+  Legend,
+  Title,
+  Tooltip
+);
+
 class Create extends Component {
   constructor() {
     super();
     this.state = {
-      text: "",
+      date: [],
     };
   }
 
+  componentDidMount() {
+    axios.get("http://localhost:3030/commande/days").then((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        this.state.date.push(res.data[i].total);
+      }
+    });
+    console.log(this.state.date);
+  }
+  /*
   componentDidMount() {
     axios.get("http://localhost:3030/commande/today").then((res) => {
       const data = res.data;
@@ -44,11 +95,32 @@ class Create extends Component {
       });
     });
   }
-
+*/
   render() {
     return (
       <div>
-        <Doughnut data={data}></Doughnut>
+        <Bar
+          data={{
+            labels: "labels",
+            datasets: [
+              {
+                label: "My First Dataset",
+                data: this.state.date,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                  "rgba(255, 205, 86, 0.2)",
+                ],
+                borderColor: [
+                  "rgb(255, 99, 132)",
+                  "rgb(255, 159, 64)",
+                  "rgb(255, 205, 86)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          }}
+        />
       </div>
     );
   }
