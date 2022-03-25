@@ -59,6 +59,7 @@ class Create extends Component {
   constructor() {
     super();
     this.state = {
+      total: [],
       date: [],
     };
   }
@@ -66,11 +67,18 @@ class Create extends Component {
   componentDidMount() {
     axios.get("http://localhost:3030/commande/days").then((res) => {
       for (let i = 0; i < res.data.length; i++) {
-        this.state.date.push(res.data[i].total);
+        this.state.total.push(res.data[i].total);
+      }
+      for (let i = 5; i > -2; i--) {
+        var curr = new Date(); // get current date
+        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+        var last = first + i;
+        let date = new Date(curr.setDate(last)).toGMTString().slice(0, 16);
+        this.state.date.push(date);
       }
     });
-    console.log(this.state.date);
   }
+
   /*
   componentDidMount() {
     axios.get("http://localhost:3030/commande/today").then((res) => {
@@ -101,25 +109,34 @@ class Create extends Component {
       <div>
         <Bar
           data={{
-            labels: "labels",
+            labels: this.state.date,
             datasets: [
               {
-                label: "My First Dataset",
-                data: this.state.date,
+                label: "Tableau total de la semaine en €",
+                data: this.state.total,
                 backgroundColor: [
                   "rgba(255, 99, 132, 0.2)",
                   "rgba(255, 159, 64, 0.2)",
                   "rgba(255, 205, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(201, 203, 207, 0.2)",
                 ],
                 borderColor: [
                   "rgb(255, 99, 132)",
                   "rgb(255, 159, 64)",
                   "rgb(255, 205, 86)",
+                  "rgb(75, 192, 192)",
+                  "rgb(54, 162, 235)",
+                  "rgb(153, 102, 255)",
+                  "rgb(201, 203, 207)",
                 ],
                 borderWidth: 1,
               },
             ],
           }}
+          redraw={true}
         />
       </div>
     );
