@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
 
 class Dashboard extends Component {
   constructor() {
@@ -20,7 +20,6 @@ class Dashboard extends Component {
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
-
     this.setState(
       {
         currentPage: selectedPage,
@@ -32,6 +31,13 @@ class Dashboard extends Component {
     );
   };
 
+  changerEtat(x) {
+    var etat = document.getElementById(x).value;
+    axios.put("http://localhost:3030/commande/" + x, {
+      etat_commandes: etat,
+    });
+  }
+
   componentDidMount() {
     axios.get("http://localhost:3030/commande").then((res) => {
       const data = res.data;
@@ -41,19 +47,28 @@ class Dashboard extends Component {
         nom: obj.nom,
         prix: obj.prix_sep,
         total: obj.total,
-        date_commandes: obj.date_commandes,
+        date_commandes: obj.date_commandes.slice(0, 19).replace("T", " "),
         etat_commandes: obj.etat_commandes,
       }));
       const slice = posts.slice(
         this.state.offset,
         this.state.offset + this.state.perPage
       );
-      console.log(slice);
+      this.setState({});
       const postData = slice.map((pd) => (
-        <React.Fragment>
-          <div>{pd.nom}</div>
-          <div>{pd.date_commandes}</div>
-        </React.Fragment>
+        <ListGroupItem>
+          id de la commande : {pd.id} total : {pd.total}€ date :{" "}
+          {pd.date_commandes} etat de la commande :{" "}
+          <select
+            id={pd.id}
+            name="etat_commande"
+            defaultValue={pd.etat_commandes}
+          >
+            <option value="réservé">réservé</option>
+            <option value="payé">payé</option>
+          </select>
+          <button onClick={() => this.changerEtat(pd.id)}>changer état</button>
+        </ListGroupItem>
       ));
       this.setState({
         pageCount: Math.ceil(posts.length / this.state.perPage),
@@ -66,11 +81,11 @@ class Dashboard extends Component {
     return (
       <div>
         <Link to="/chartSemaine">
-          <Button variant="info">
+          <Button variant="dark">
             <span>graphique de la semaine</span>
           </Button>
         </Link>
-        {this.state.postData}
+        <ListGroup>{this.state.postData}</ListGroup>
         <ReactPaginate
           previousLabel={"prev"}
           nextLabel={"next"}

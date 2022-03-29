@@ -30,6 +30,7 @@ require("./routes/produit.route.js")(app);
 require("./routes/fournissement.route.js")(app);
 require("./routes/historique.route.js")(app);
 require("./routes/commande.route.js")(app);
+require("./routes/commande2.route.js")(app);
 require("./routes/fournissement2.route.js")(app);
 
 // set port, listen for requests
