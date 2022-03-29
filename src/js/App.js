@@ -12,6 +12,7 @@ import ModifierProduitPage from "../components/modifierProduit/modifierProduitpa
 import Blocnote from "../components/blocnote/blocnote";
 import ProduitIndiponible from "../components/historique/produitIndisponible";
 import Historique from "../components/historique/historique";
+import ChartSemaine from "../components/dashbord/ChartSemaine";
 
 export default function App() {
   /*
@@ -84,6 +85,9 @@ export default function App() {
           </Route>
           <Route path="/blocnote">
             <Blocnote />
+          </Route>
+          <Route path="/chartSemaine">
+            <ChartSemaine />
           </Route>
         </Switch>
       </BrowserRouter>

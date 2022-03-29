@@ -1,147 +1,92 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
 import axios from "axios";
-import { Doughnut, Bar } from "react-chartjs-2";
-import {
-  Chart,
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  BubbleController,
-  DoughnutController,
-  LineController,
-  PieController,
-  PolarAreaController,
-  RadarController,
-  ScatterController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  RadialLinearScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
-  Tooltip,
-} from "chart.js";
+import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-Chart.register(
-  ArcElement,
-  LineElement,
-  BarElement,
-  PointElement,
-  BarController,
-  BubbleController,
-  DoughnutController,
-  LineController,
-  PieController,
-  PolarAreaController,
-  RadarController,
-  ScatterController,
-  CategoryScale,
-  LinearScale,
-  LogarithmicScale,
-  RadialLinearScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
-  Tooltip
-);
-
-class Create extends Component {
+class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      total: [],
-      date: [],
-      isReady: false,
+      posts: [],
+      offset: 0,
+      data: [],
+      perPage: 10,
+      currentPage: 0,
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
-  componentDidMount() {
-    axios.get("http://localhost:3030/commande/days").then((res) => {
-      for (let i = 0; i < res.data.length; i++) {
-        this.state.total.push(res.data[i].total);
-        this.state.date.push(res.data[i].date_commandes.slice(0, 10));
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.perPage;
+
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.componentDidMount();
       }
-    });
+    );
+  };
 
-    this.setState({ isReady: true });
-  }
-
-  /*
   componentDidMount() {
-    axios.get("http://localhost:3030/commande/today").then((res) => {
+    axios.get("http://localhost:3030/commande").then((res) => {
       const data = res.data;
       const posts = data.map((obj) => ({
         id: obj.id_commandes,
         id_produits: obj.id_produits,
         nom: obj.nom,
         prix: obj.prix_sep,
-        total: obj.id_total,
+        total: obj.total,
         date_commandes: obj.date_commandes,
         etat_commandes: obj.etat_commandes,
       }));
-      const postData = posts.map((pd) => (
+      const slice = posts.slice(
+        this.state.offset,
+        this.state.offset + this.state.perPage
+      );
+      console.log(slice);
+      const postData = slice.map((pd) => (
         <React.Fragment>
           <div>{pd.nom}</div>
           <div>{pd.date_commandes}</div>
         </React.Fragment>
       ));
       this.setState({
+        pageCount: Math.ceil(posts.length / this.state.perPage),
         postData,
       });
     });
   }
-*/
+
   render() {
     return (
       <div>
-        {this.state.isFetching ? (
-          <div>Loading...</div>
-        ) : (
-          <Bar
-            data={{
-              labels: this.state.date,
-              datasets: [
-                {
-                  label: "Tableau total de la semaine en €",
-                  data: this.state.total,
-                  backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(255, 159, 64, 0.2)",
-                    "rgba(255, 205, 86, 0.2)",
-                    "rgba(75, 192, 192, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                    "rgba(201, 203, 207, 0.2)",
-                  ],
-                  borderColor: [
-                    "rgb(255, 99, 132)",
-                    "rgb(255, 159, 64)",
-                    "rgb(255, 205, 86)",
-                    "rgb(75, 192, 192)",
-                    "rgb(54, 162, 235)",
-                    "rgb(153, 102, 255)",
-                    "rgb(201, 203, 207)",
-                  ],
-                  borderWidth: 1,
-                },
-              ],
-            }}
-            redraw={true}
-          />
-        )}
+        <Link to="/chartSemaine">
+          <Button variant="info">
+            <span>graphique de la semaine</span>
+          </Button>
+        </Link>
+        {this.state.postData}
+        <ReactPaginate
+          previousLabel={"prev"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={this.state.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
       </div>
     );
   }
 }
 
-export default Create;
+export default Dashboard;

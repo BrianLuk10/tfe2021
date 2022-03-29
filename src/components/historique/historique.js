@@ -58,7 +58,7 @@ export default function Historique() {
   return (
     <div>
       <Link to="/historiqueSupprimé">
-        <Button>
+        <Button variant="danger">
           <span>Historique des produits supprimés</span>
         </Button>
       </Link>
