@@ -45,7 +45,7 @@ Commande.create2 = (Commande, result) => {
 
 Commande.getAll = (result) => {
   sql.query(
-    "select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, c.etat_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes group by c.id_commandes;",
+    "select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, c.etat_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes group by c.id_commandes desc;",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -90,7 +90,7 @@ Commande.getAll7Days = (result) => {
 
 Commande.getAllMonth = (result) => {
   sql.query(
-    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes group by month(c.date_commandes)",
+    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes where year(c.date_commandes) = YEAR(NOW()) group by month(c.date_commandes);",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -105,7 +105,7 @@ Commande.getAllMonth = (result) => {
 
 Commande.getAllYear = (result) => {
   sql.query(
-    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes group by year(c.date_commandes)",
+    "select sum(p.prix_produits * cp.nombre) as total, year(c.date_commandes) as annee from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes group by year(c.date_commandes);",
     (err, res) => {
       if (err) {
         console.log("error: ", err);

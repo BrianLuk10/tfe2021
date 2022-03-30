@@ -57,8 +57,8 @@ class Dashboard extends Component {
       this.setState({});
       const postData = slice.map((pd) => (
         <ListGroupItem>
-          id de la commande : {pd.id} total : {pd.total}€ date :{" "}
-          {pd.date_commandes} etat de la commande :{" "}
+          id de la commande : {pd.id} | total : {pd.total}€ | date :{" "}
+          {pd.date_commandes} | etat de la commande :{" "}
           <select
             id={pd.id}
             name="etat_commande"
@@ -83,6 +83,16 @@ class Dashboard extends Component {
         <Link to="/chartSemaine">
           <Button variant="dark">
             <span>graphique de la semaine</span>
+          </Button>
+        </Link>
+        <Link to="/chartMois">
+          <Button variant="dark">
+            <span>graphique des mois</span>
+          </Button>
+        </Link>
+        <Link to="/chartAnnee">
+          <Button variant="dark">
+            <span>graphique en année</span>
           </Button>
         </Link>
         <ListGroup>{this.state.postData}</ListGroup>

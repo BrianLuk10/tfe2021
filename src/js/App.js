@@ -13,6 +13,8 @@ import Blocnote from "../components/blocnote/blocnote";
 import ProduitIndiponible from "../components/historique/produitIndisponible";
 import Historique from "../components/historique/historique";
 import ChartSemaine from "../components/dashbord/ChartSemaine";
+import ChartMois from "../components/dashbord/ChartMois";
+import ChartAnnee from "../components/dashbord/chartAnnee";
 
 export default function App() {
   /*
@@ -88,6 +90,12 @@ export default function App() {
           </Route>
           <Route path="/chartSemaine">
             <ChartSemaine />
+          </Route>
+          <Route path="/chartMois">
+            <ChartMois />
+          </Route>
+          <Route path="/chartAnnee">
+            <ChartAnnee />
           </Route>
         </Switch>
       </BrowserRouter>

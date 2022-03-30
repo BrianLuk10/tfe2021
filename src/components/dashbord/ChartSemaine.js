@@ -1,57 +1,24 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
 import axios from "axios";
-import { Doughnut, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import {
   Chart,
-  ArcElement,
-  LineElement,
   BarElement,
-  PointElement,
   BarController,
-  BubbleController,
-  DoughnutController,
   LineController,
-  PieController,
-  PolarAreaController,
-  RadarController,
-  ScatterController,
   CategoryScale,
   LinearScale,
-  LogarithmicScale,
-  RadialLinearScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
   Tooltip,
 } from "chart.js";
 
 Chart.register(
-  ArcElement,
-  LineElement,
   BarElement,
-  PointElement,
   BarController,
-  BubbleController,
-  DoughnutController,
   LineController,
-  PieController,
-  PolarAreaController,
-  RadarController,
-  ScatterController,
   CategoryScale,
   LinearScale,
-  LogarithmicScale,
-  RadialLinearScale,
-  TimeScale,
-  TimeSeriesScale,
-  Decimation,
-  Filler,
-  Legend,
-  Title,
   Tooltip
 );
 
@@ -79,6 +46,16 @@ class ChartSemaine extends Component {
   render() {
     return (
       <div>
+        <Link to="/chartMois">
+          <Button variant="dark">
+            <span>graphique des mois</span>
+          </Button>
+        </Link>
+        <Link to="/chartAnnee">
+          <Button variant="dark">
+            <span>graphique en année</span>
+          </Button>
+        </Link>
         {this.state.isFetching ? (
           <div>Loading...</div>
         ) : (
