@@ -9,7 +9,7 @@ const Historique = function (historique) {
 
 Historique.getAll = (result) => {
   sql.query(
-    "SELECT h.id_historique, h.id_produits, h.nom_produits, h.prix_produits, h.statut, h.date_modification, h.categorie_produits, sum(f.stock_produits) as stock FROM historique_produits as h inner join fournissements as f where h.id_produits = f.id_produits group by h.id_historique",
+    "SELECT h.id_historique, h.id_produits, h.nom_produits, h.prix_produits, h.statut, h.date_modification, h.categorie_produits, sum(f.stock_produits) as stock FROM historique_produits as h inner join fournissements as f where h.id_produits = f.id_produits group by h.id_historique desc",
     (err, res) => {
       if (err) {
         console.log("error: ", err);

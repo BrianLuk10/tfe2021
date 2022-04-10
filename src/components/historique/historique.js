@@ -84,8 +84,18 @@ export default function Historique() {
                         : {item.categorie_produits}
                         &nbsp;&nbsp;status : {item.statut} &nbsp;&nbsp; Date de
                         modification : {item.date_modification}
+                        <button
+                          className="button-40"
+                          role="button"
+                          onClick={() =>
+                            supprimerHistorique(item.id_historique)
+                          }
+                        >
+                          supprimé
+                        </button>
                       </li>
                     </ul>
+                    <Confirmer show={showConfirm} confirmer={confirmer} />
                   </div>
                 );
               })

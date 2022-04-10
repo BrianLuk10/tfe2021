@@ -6,7 +6,7 @@ const Commande2 = function (commande2) {
 
 Commande2.updateState = (id, Commande2, result) => {
   sql.query(
-    `update commandes set etat_commandes = ? where id_commandes = ${id}`,
+    `update commandes set etat_commandes = ?, date_commandes = date_commandes where id_commandes = ${id}`,
     [Commande2.etat_commandes, id],
     (err, res) => {
       if (err) {

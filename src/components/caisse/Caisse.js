@@ -59,7 +59,7 @@ export default class Caisse extends React.Component {
       posts: [],
       offset: 0,
       data: [],
-      perPage: 19,
+      perPage: 14,
       currentPage: 0,
       caisse: [],
       categorie: "",

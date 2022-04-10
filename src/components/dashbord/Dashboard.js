@@ -66,6 +66,7 @@ class Dashboard extends Component {
           >
             <option value="réservé">réservé</option>
             <option value="payé">payé</option>
+            <option value="annulé">annulé</option>
           </select>
           <button onClick={() => this.changerEtat(pd.id)}>changer état</button>
         </ListGroupItem>
