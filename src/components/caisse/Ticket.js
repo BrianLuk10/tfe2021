@@ -80,19 +80,9 @@ function Ticket() {
           {articleShow}
           <hr></hr>
           <tr>
-            <th>HTVA</th>
-            <th>TAUX</th>
-            <th></th>
-            <th>TVA</th>
-            <th></th>
             <th>TOTAL</th>
           </tr>
           <tr>
-            <td>6.60€</td>
-            <td>6.00</td>
-            <td></td>
-            <td>0.40€</td>
-            <td></td>
             <td>{prixTotal}€</td>
           </tr>
           <div>TOTAL : {prixTotal}€</div>

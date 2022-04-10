@@ -34,6 +34,24 @@ const Modal = ({ handleClose, validerModal, show, children }) => {
   );
 };
 
+const Modal2 = ({ handleClose2, show2 }) => {
+  const showHideClassName2 = show2
+    ? "modal display-block"
+    : "modal display-none";
+
+  return (
+    <div className={showHideClassName2}>
+      <section className="modal-main">
+        <div>plus disponible</div>
+        <span></span>
+        <button className="btn btn-danger" onClick={handleClose2}>
+          Fermer
+        </button>
+      </section>
+    </div>
+  );
+};
+
 export default class Caisse extends React.Component {
   constructor(props) {
     super(props);
@@ -47,30 +65,34 @@ export default class Caisse extends React.Component {
       categorie: "",
       value: "Tout",
       show: false,
+      show2: false,
       article: [],
     };
     this.onChangeValue = this.onChangeValue.bind(this);
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.hideModal2 = this.hideModal2.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   showModal = (pd) => {
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("result");
-    output.innerHTML = slider.value;
-    slider.oninput = function () {
-      output.innerHTML = this.value;
-    };
-    //pd.nombre = slider.value
-    console.log(pd);
-    this.setState({ show: true });
-    sessionStorage.setItem("caisseProduit", JSON.stringify(pd));
-    var data = JSON.parse(sessionStorage.getItem("caisseProduit"));
-    document.getElementById("nom").innerHTML = data.nom;
-    document.getElementById("prix").innerHTML = data.prix.toFixed(2) + "$";
-    document.getElementById("img1").innerHTML =
-      `<img class="image" src=` + data.image + `>`;
+    if (pd.stock > 0) {
+      var slider = document.getElementById("myRange");
+      var output = document.getElementById("result");
+      output.innerHTML = slider.value;
+      slider.oninput = function () {
+        output.innerHTML = this.value;
+      };
+      this.setState({ show: true });
+      sessionStorage.setItem("caisseProduit", JSON.stringify(pd));
+      var data = JSON.parse(sessionStorage.getItem("caisseProduit"));
+      document.getElementById("nom").innerHTML = data.nom;
+      document.getElementById("prix").innerHTML = data.prix.toFixed(2) + "$";
+      document.getElementById("img1").innerHTML =
+        `<img class="image" src=` + data.image + `>`;
+    } else {
+      this.setState({ show2: true });
+    }
   };
 
   reset = () => {
@@ -101,15 +123,23 @@ export default class Caisse extends React.Component {
     this.setState({ show: false });
   };
 
+  hideModal2 = () => {
+    this.setState({ show2: false });
+  };
+
   validerModal = () => {
     this.setState({ show: false });
     var slider = document.getElementById("myRange");
     let data = JSON.parse(sessionStorage.getItem("caisseProduit"));
     data.nombre = slider.value;
-    sessionStorage.setItem("caisse", JSON.stringify(data));
-    this.state.caisse.push(JSON.parse(sessionStorage.getItem("caisse")));
-    console.log(this.state.caisse);
-    this.componentDidMount();
+    if (data.nombre > data.stock) {
+      console.log(data.stock);
+    } else {
+      sessionStorage.setItem("caisse", JSON.stringify(data));
+      this.state.caisse.push(JSON.parse(sessionStorage.getItem("caisse")));
+      console.log(this.state.caisse);
+      this.componentDidMount();
+    }
   };
 
   calculerPrixTotal = (a, b) => {
@@ -239,6 +269,11 @@ export default class Caisse extends React.Component {
             <div id="nom"></div>
             <div id="prix">€</div>
           </Modal>
+          <Modal2 show2={this.state.show2} handleClose2={this.hideModal2}>
+            <div id="img1" />
+            <div id="nom"></div>
+            <div id="prix">€</div>
+          </Modal2>
           <div className="container">
             <div onChange={this.onChangeValue}>
               <input type="radio" value="Tout" name="categorie" /> Tout
