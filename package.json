@@ -27,6 +27,7 @@
     "cors": "^2.8.5",
     "css-loader": "^6.5.0",
     "electron": "^15.3.6",
+    "electron-packager": "^15.4.0",
     "express": "^4.17.1",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
