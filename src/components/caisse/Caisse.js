@@ -5,8 +5,10 @@ import ReactPaginate from "react-paginate";
 import "./Caisse.css";
 import ReactToPrint from "react-to-print";
 
+//initialisation du prix total à 0 lorsqu'on arrive vers cette page
 let prixTotal = 0;
 
+//création du Modal des produit, renvoie un modal avec un choix de 1 à 10 du produit
 const Modal = ({ handleClose, validerModal, show, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
@@ -34,6 +36,8 @@ const Modal = ({ handleClose, validerModal, show, children }) => {
   );
 };
 
+
+//création du Modal si le stock du produit est à 0, renvoie 'plus disponible'
 const Modal2 = ({ handleClose2, show2 }) => {
   const showHideClassName2 = show2
     ? "modal display-block"
@@ -75,6 +79,7 @@ export default class Caisse extends React.Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
+  //fonciton qui per;et d'afficher le modal des produits, est appelé lorsqu'on clique sur l'image du produit dans la caisse
   showModal = (pd) => {
     if (pd.stock > 0) {
       var slider = document.getElementById("myRange");
@@ -95,9 +100,9 @@ export default class Caisse extends React.Component {
     }
   };
 
+  //fonction qui remet l'etat de la caisse à 0 et sauvegarde l'etat de la caisse actuelle dans un sessionStorage, est appelé une fois la caisse fini
   reset = () => {
     sessionStorage.setItem("save", JSON.stringify(this.state.caisse));
-    console.log("caisse taille : " + this.state.caisse.length);
     axios.post("http://localhost:3030/commande");
     for (let i = 0; this.state.caisse.length > i; i++) {
       axios.put(
@@ -119,43 +124,43 @@ export default class Caisse extends React.Component {
     this.componentDidMount();
   };
 
+  //cache le modal des produit
   hideModal = () => {
     this.setState({ show: false });
   };
 
+  //cache le modal 'plus disponible'
   hideModal2 = () => {
     this.setState({ show2: false });
   };
 
+  //une fois le modal valider, le cache et ajoute les données dans la caisse avec un sessionStorage
   validerModal = () => {
     this.setState({ show: false });
     var slider = document.getElementById("myRange");
     let data = JSON.parse(sessionStorage.getItem("caisseProduit"));
     data.nombre = slider.value;
     if (data.nombre > data.stock) {
-      console.log(data.stock);
     } else {
       sessionStorage.setItem("caisse", JSON.stringify(data));
       this.state.caisse.push(JSON.parse(sessionStorage.getItem("caisse")));
-      console.log(this.state.caisse);
       this.componentDidMount();
     }
   };
 
+  //fonction simple de calcul pour calculer le prix total de la caisse
   calculerPrixTotal = (a, b) => {
     let prix = a * b;
     prixTotal += prix;
   };
 
+  //fonction qui change la value du state lorsqu'on la change, est utilisé pour les SELECT/OPTION html pour les catégories des produits.
   onChangeValue(e) {
     this.setState({ value: e.target.value });
     this.componentDidMount();
   }
 
-  recevoirArticle = (article) => {
-    console.log(`${article}`);
-  };
-
+  //fonction componentDidMount, méthode de React pour recevoir les données des produits de la caisse via une API et les affichent.
   componentDidMount() {
     axios.get(`http://localhost:3030/produit`).then((res) => {
       let filter;
@@ -178,7 +183,6 @@ export default class Caisse extends React.Component {
         this.state.offset,
         this.state.offset + this.state.perPage
       );
-      console.log(posts);
       const postData = slice.map((pd) => (
         <React.Fragment>
           <div className={`${pd.categorie}`}>
@@ -232,6 +236,7 @@ export default class Caisse extends React.Component {
     }
   }
 
+  //fonction qui permet de changer de page
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;

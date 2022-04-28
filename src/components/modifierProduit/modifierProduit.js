@@ -19,6 +19,8 @@ export default function ModifierProduit() {
     });
   }, []);
 
+
+  //fonction pour filtrer les données en fonction de l'input qu'on rentre
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
     if (searchInput !== "") {
@@ -44,45 +46,41 @@ export default function ModifierProduit() {
       <div>
         {searchInput.length > 1
           ? filteredResults.map((item) => {
-              let url = "/modifierProduitPage/" + item.id_produits;
-              console.log(url);
-              return (
-                <div>
-                  <ul className="list-group">
-                    <li key={item.nom_produits} className="list-group-item">
-                      <Link to={`${url}`}>
-                        <button>
-                          {" "}
-                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                          stock : {item.stock}
-                          &nbsp;&nbsp;
-                        </button>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              );
-            })
+            return (
+              <div>
+                <ul className="list-group">
+                  <li key={item.nom_produits} className="list-group-item">
+                    <Link to={`${url}`}>
+                      <button>
+                        {" "}
+                        Nom du produit : {item.nom_produits} &nbsp;&nbsp;
+                        stock : {item.stock}
+                        &nbsp;&nbsp;
+                      </button>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            );
+          })
           : APIData.map((item) => {
-              let url = "/modifierProduitPage/" + item.id_produits;
-              console.log(url);
-              return (
-                <div>
-                  <ul className="list-group">
-                    <li key={item.nom_produits} className="list-group-item">
-                      <Link to={`${url}`}>
-                        <button>
-                          {" "}
-                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                          stock : {item.stock}
-                          &nbsp;&nbsp;
-                        </button>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              );
-            })}
+            return (
+              <div>
+                <ul className="list-group">
+                  <li key={item.nom_produits} className="list-group-item">
+                    <Link to={`${url}`}>
+                      <button>
+                        {" "}
+                        Nom du produit : {item.nom_produits} &nbsp;&nbsp;
+                        stock : {item.stock}
+                        &nbsp;&nbsp;
+                      </button>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

@@ -46,6 +46,7 @@ export default function ProduitIndiponible() {
     window.history.back();
   };
 
+  //fonction pour restaurer un produit non disponible
   const restore = (id) => {
     axios.put("http://localhost:3030/produitRestore/" + id);
     setConfirm((showConfirm) => !showConfirm);
@@ -61,53 +62,51 @@ export default function ProduitIndiponible() {
       <div>
         {searchInput.length > 1
           ? filteredResults.map((item) => {
-              let url = "/modifierProduitPage/" + item.id_produits;
-              console.log(url);
-              return (
-                <div>
-                  <ul className="list-group">
-                    <li className="list-group-item">
-                      Nom du produit :{item.nom_produits} &nbsp;&nbsp; stock :{" "}
-                      {item.stock}
-                      &nbsp;&nbsp; Date de modification :
-                      {item.date_modification}
-                      <button
-                        className="button-30"
-                        role="button"
-                        onClick={() => restore(item.id_produits)}
-                      >
-                        restorer le produit
-                      </button>
-                    </li>
-                  </ul>
-                  <Confirmer show={showConfirm} confirmer={confirmer} />
-                </div>
-              );
-            })
+            let url = "/modifierProduitPage/" + item.id_produits;
+            return (
+              <div>
+                <ul className="list-group">
+                  <li className="list-group-item">
+                    Nom du produit :{item.nom_produits} &nbsp;&nbsp; stock :{" "}
+                    {item.stock}
+                    &nbsp;&nbsp; Date de modification :
+                    {item.date_modification}
+                    <button
+                      className="button-30"
+                      role="button"
+                      onClick={() => restore(item.id_produits)}
+                    >
+                      restorer le produit
+                    </button>
+                  </li>
+                </ul>
+                <Confirmer show={showConfirm} confirmer={confirmer} />
+              </div>
+            );
+          })
           : APIData.map((item) => {
-              let url = "/modifierProduitPage/" + item.id_produits;
-              console.log(url);
-              return (
-                <div>
-                  <ul className="list-group">
-                    <li className="list-group-item">
-                      Nom du produit : {item.nom_produits} &nbsp;&nbsp; stock :{" "}
-                      {item.stock}
-                      &nbsp;&nbsp; Date de modification :
-                      {item.date_modification}
-                      <button
-                        className="button-30"
-                        role="button"
-                        onClick={() => restore(item.id_produits)}
-                      >
-                        restorer le produit
-                      </button>
-                    </li>
-                  </ul>
-                  <Confirmer show={showConfirm} confirmer={confirmer} />
-                </div>
-              );
-            })}
+            let url = "/modifierProduitPage/" + item.id_produits;
+            return (
+              <div>
+                <ul className="list-group">
+                  <li className="list-group-item">
+                    Nom du produit : {item.nom_produits} &nbsp;&nbsp; stock :{" "}
+                    {item.stock}
+                    &nbsp;&nbsp; Date de modification :
+                    {item.date_modification}
+                    <button
+                      className="button-30"
+                      role="button"
+                      onClick={() => restore(item.id_produits)}
+                    >
+                      restorer le produit
+                    </button>
+                  </li>
+                </ul>
+                <Confirmer show={showConfirm} confirmer={confirmer} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

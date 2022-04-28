@@ -3,6 +3,7 @@ import axios from "axios";
 import "./AjoutProduit.css";
 import Confirmer from "../modifierProduit/Confirmer";
 
+//obtenir la date actuelle
 const current_date = new Date().toISOString().slice(0, 19).replace("T", " ");
 
 export default class Caisse extends React.Component {
@@ -21,12 +22,14 @@ export default class Caisse extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  //fonction confirmer qui change l'etat du state
   confirmer = () => {
     this.setState({
       showConfirm: false,
     });
   };
 
+  //fonction qui permet de changer l'état pour correspondre à ce qui a été écrit
   handleChange(e) {
     const name = e.target.name;
     this.setState({
@@ -34,9 +37,9 @@ export default class Caisse extends React.Component {
     });
   }
 
+  //fonction valider envoie les données dans la BDD
   submitHandler = (e) => {
     e.preventDefault();
-    console.log(this.state);
     axios.post("http://localhost:3030/produit", this.state).then((response) => {
       const data_fournissement = {
         id_produits: response.data.id,
@@ -44,11 +47,9 @@ export default class Caisse extends React.Component {
         stock_produits: this.state.stock,
         exp_date: null,
       };
-      console.log(data_fournissement);
       axios
         .post("http://localhost:3030/fournissement/", data_fournissement)
         .then((response) => {
-          console.log(response);
         });
     });
     this.setState({

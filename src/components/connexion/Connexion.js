@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./Connexion.scss";
 
+//fonction asynchrone permet de d'envoyer le token de la connexion actuelle
 async function loginUser(credentials) {
   return fetch("http://localhost:3030/token", {
     method: "POST",
@@ -15,6 +16,7 @@ export default function Connexion({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
+  //hardcodage nom utilisateur et mot de passe
   const handleSubmit = async (e) => {
     if (username == "test" && password == "test") {
       e.preventDefault();

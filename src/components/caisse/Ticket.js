@@ -11,19 +11,14 @@ function Ticket() {
   let articleShow;
   let posts;
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   let componentRef = useRef(null);
   const current = new Date();
-  const date = `${current.getDate()}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
+  const date = `${current.getDate()}/${current.getMonth() + 1
+    }/${current.getFullYear()}`;
 
   let data = JSON.parse(sessionStorage.getItem("save"));
-  for (let j = 0; j < data.length; j++) {
-    console.log("les données numero " + j + " sont :");
-    console.log(data[j]);
-  }
   sessionStorage.setItem("caisse", JSON.stringify(data));
   let article = JSON.parse(sessionStorage.getItem("save"));
   let i = 0;
@@ -49,8 +44,6 @@ function Ticket() {
     console.log("pas d'article");
   }
 
-  console.log(articleShow);
-  console.log(posts);
 
   return (
     <div>

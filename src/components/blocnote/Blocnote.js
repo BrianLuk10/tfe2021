@@ -5,11 +5,13 @@ import axios from "axios";
 class Blocnote extends Component {
   constructor() {
     super();
+    //state text vide de base qui se remplie avec le componentDidMount si il y a des produits où le stock < 5
     this.state = {
       text: "",
     };
   }
 
+  //méthode React qui est appelé lorsque la page est monté, on initialise l'API qui recoit les données des produits avec un stock < 5 pour les placer dans le state 'text'
   componentDidMount() {
     axios.get("http://localhost:3030/produit5").then((res) => {
       const data = res.data;
@@ -28,6 +30,7 @@ class Blocnote extends Component {
     });
   }
 
+  //fonction qui permet de placer ce qui a été écrit dans un fichier .txt qu'on choisit dans le html pour le lire
   showFile = () => {
     if (window.File && window.FileReader && window.FileList && window.Blob) {
       var preview = document.getElementById("show-text");
@@ -49,6 +52,7 @@ class Blocnote extends Component {
     }
   };
 
+  //écriture de ce qu'on écrit dans un fichier qu'on crée
   downloadTxtFile = () => {
     const element = document.createElement("a");
     const file = new Blob([document.getElementById("myInput").value], {
@@ -56,7 +60,7 @@ class Blocnote extends Component {
     });
     element.href = URL.createObjectURL(file);
     element.download = "myFile.txt";
-    document.body.appendChild(element); // Required for this to work in FireFox
+    document.body.appendChild(element);
     element.click();
   };
 
