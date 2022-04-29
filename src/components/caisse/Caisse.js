@@ -282,7 +282,7 @@ export default class Caisse extends React.Component {
           <div className="container">
             <div onChange={this.onChangeValue}>
               <input type="radio" value="Tout" name="categorie" /> Tout
-              <input type="radio" value="fleur" name="categorie" /> fleur{" "}
+              <input type="radio" value="fleur" name="categorie" /> fleur
               <br></br>
               <input type="radio" value="consommable" name="categorie" />
               Consommable <br></br>

@@ -14,7 +14,7 @@ export default class ModifierProduitPage extends React.Component {
       image_produits: "",
       nom_produits: "",
       prix_produits: "",
-      categorie_produits: "",
+      id_categorie: "",
       stock: "",
       showDialog: false,
       showConfirm: false,
@@ -61,6 +61,7 @@ export default class ModifierProduitPage extends React.Component {
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+    console.log(this.state);
   }
 
   //envoie des données dans la BDD et fermeture du modal
@@ -70,7 +71,7 @@ export default class ModifierProduitPage extends React.Component {
       .put("http://localhost:3030/produit/" + this.state.id_produitPage, {
         nom_produits: this.state.nom_produits,
         image_produits: this.state.image_produits,
-        categorie_produits: this.state.categorie_produits,
+        id_categorie: this.state.id_categorie,
         prix_produits: this.state.prix_produits,
       })
       .then((response) => {
@@ -102,12 +103,14 @@ export default class ModifierProduitPage extends React.Component {
         .get("http://localhost:3030/produit/" + this.state.id_produitPage)
         .then((res) => {
           const produitdatavalue = res.data;
+          console.log(produitdatavalue);
           this.setState({
             id_produits: produitdatavalue.id_produits,
             image_produits: produitdatavalue.image_produits,
             nom_produits: produitdatavalue.nom_produits,
             prix_produits: produitdatavalue.prix_produits,
             categorie_produits: produitdatavalue.categorie_produits,
+            id_categorie: produitdatavalue.id_categorie,
             stock: produitdatavalue.stock,
           });
         })
@@ -160,17 +163,17 @@ export default class ModifierProduitPage extends React.Component {
                 <div>
                   <label htmlFor="Cat">categorie :</label>
                   <select
-                    id="categorie_produits"
-                    name="categorie_produits"
-                    value={this.state.categorie_produits}
+                    id="id_categorie"
+                    name="id_categorie"
+                    value={this.state.id_categorie}
                     onChange={this.handleChange}
+                    defaultValue={this.state.categorie_produits}
                   >
-                    <option value="fleur">fleur</option>
-                    <option value="consommable">consommable</option>
-                    <option value="décoration">décoration</option>
+                    <option value="1">fleur</option>
+                    <option value="2">consommable</option>
+                    <option value="3">décoration</option>
                   </select>
                 </div>
-
                 <div>
                   <label htmlFor="Stock">En stock :</label>
                   <input
@@ -184,7 +187,6 @@ export default class ModifierProduitPage extends React.Component {
                     required
                   />
                 </div>
-
                 <div className="confirmer">
                   <button
                     className="btn btn-primary"

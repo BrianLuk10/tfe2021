@@ -11,7 +11,7 @@ exports.create = (req, res) => {
     nom_produits: req.body.nom_produits,
     image_produits: req.body.image_produits,
     prix_produits: req.body.prix_produits,
-    categorie_produits: req.body.categorie_produits,
+    id_categorie: req.body.id_categorie,
   });
 
   Produit.create(produit, (err, data) => {

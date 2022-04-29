@@ -14,7 +14,7 @@ export default class Caisse extends React.Component {
       image_produits:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png",
       prix_produits: 0.0,
-      categorie_produits: "fleur",
+      id_categorie: 1,
       stock: 0,
       date_fournissement: current_date,
     };
@@ -102,14 +102,14 @@ export default class Caisse extends React.Component {
               <div>
                 <label htmlFor="Cat">categorie :</label>
                 <select
-                  id="categorie_produits"
-                  name="categorie_produits"
-                  value={this.state.categorie_produits}
+                  id="id_categorie"
+                  name="id_categorie"
+                  value={this.state.id_categorie}
                   onChange={this.handleChange}
                 >
-                  <option value="fleur">fleur</option>
-                  <option value="consommable">consommable</option>
-                  <option value="décoration">décoration</option>
+                  <option value="1">fleur</option>
+                  <option value="2">consommable</option>
+                  <option value="3">décoration</option>
                 </select>
               </div>
 

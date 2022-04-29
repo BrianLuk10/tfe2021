@@ -7,7 +7,7 @@ const Commande = function (commande) {
 
 Commande.create = (Commande, result) => {
   sql.query(
-    `insert into commandes set date_commandes = CURRENT_TIMESTAMP, etat_commandes = 'payé';`,
+    `insert into commandes set date_commandes = CURRENT_TIMESTAMP, id_etat = 1;`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -45,7 +45,7 @@ Commande.create2 = (Commande, result) => {
 
 Commande.getAll = (result) => {
   sql.query(
-    "select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, c.etat_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes group by c.id_commandes desc;",
+    "select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, c.id_etat, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, ec.nom_etat as etat_commandes from commande_produit as cp inner join produits as p inner join etat_commandes as ec inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes and c.id_etat = ec.id_etat group by c.id_commandes desc;",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -60,7 +60,7 @@ Commande.getAll = (result) => {
 
 Commande.getAllToday = (result) => {
   sql.query(
-    "select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, c.etat_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes where date(c.date_commandes) = CURRENT_DATE group by c.id_commandes;",
+    "select cp.id_commandes, c.id_etat, GROUP_CONCAT(cp.id_produits) as id_produits, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, ec.nom_etat as etat_commandes from commande_produit as cp inner join produits as p inner join etat_commandes as ec inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes and c.id_etat = ec.id_etat where date(c.date_commandes) = CURRENT_DATE group by c.id_commandes;",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -75,7 +75,7 @@ Commande.getAllToday = (result) => {
 
 Commande.getAll7Days = (result) => {
   sql.query(
-    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.etat_commandes = 'payé' or c.etat_commandes = 'reservé') and c.id_commandes = cp.id_commandes where c.date_commandes >= CURDATE() - INTERVAL 1 WEEK group by day(c.date_commandes) desc",
+    "select sum(p.prix_produits * cp.nombre) as total, c.id_etat, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.id_etat = 1 or c.id_etat = 2) and c.id_commandes = cp.id_commandes where c.date_commandes >= CURDATE() - INTERVAL 1 WEEK group by day(c.date_commandes) desc",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -90,7 +90,7 @@ Commande.getAll7Days = (result) => {
 
 Commande.getAllMonth = (result) => {
   sql.query(
-    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.etat_commandes = 'payé' or c.etat_commandes = 'reservé') and c.id_commandes = cp.id_commandes where year(c.date_commandes) = YEAR(NOW()) group by month(c.date_commandes);",
+    "select sum(p.prix_produits * cp.nombre) as total, c.id_etat, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.id_etat = 1 or c.id_etat = 2) and c.id_commandes = cp.id_commandes where year(c.date_commandes) = YEAR(NOW()) group by month(c.date_commandes);",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -105,7 +105,7 @@ Commande.getAllMonth = (result) => {
 
 Commande.getAllYear = (result) => {
   sql.query(
-    "select sum(p.prix_produits * cp.nombre) as total, year(c.date_commandes) as annee from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.etat_commandes = 'payé' or c.etat_commandes = 'reservé') and c.id_commandes = cp.id_commandes group by year(c.date_commandes);",
+    "select sum(p.prix_produits * cp.nombre) as total, year(c.date_commandes) as annee from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.id_etat = 1 or c.id_etat = 2) and c.id_commandes = cp.id_commandes group by year(c.date_commandes);",
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -133,7 +133,7 @@ Commande.remove = (id, result) => {
 
 Commande.findById = (id_commandes, result) => {
   sql.query(
-    `select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, c.etat_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes where cp.id_commandes = ${id_commandes};`,
+    `select cp.id_commandes, GROUP_CONCAT(cp.id_produits) as id_produits, c.id_etat, GROUP_CONCAT(p.nom_produits) as nom, GROUP_CONCAT(p.prix_produits) as prix_sep, GROUP_CONCAT(cp.nombre) as nombre_sep, sum(p.prix_produits * cp.nombre) as total, c.date_commandes, ec.nom_etat as etat_commandes from commande_produit as cp inner join produits as p inner join etat_commandes as ec inner join commandes as c on p.id_produits = cp.id_produits and c.id_commandes = cp.id_commandes where cp.id_commandes = ${id_commandes};`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

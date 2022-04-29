@@ -3,6 +3,7 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import "./dashboard.css";
 
 class Dashboard extends Component {
   constructor() {
@@ -34,8 +35,9 @@ class Dashboard extends Component {
   changerEtat(x) {
     var etat = document.getElementById(x).value;
     axios.put("http://localhost:3030/commande/" + x, {
-      etat_commandes: etat,
+      id_etat: etat,
     });
+    this.componentDidMount();
   }
 
   componentDidMount() {
@@ -49,6 +51,7 @@ class Dashboard extends Component {
         total: obj.total,
         date_commandes: obj.date_commandes.slice(0, 19).replace("T", " "),
         etat_commandes: obj.etat_commandes,
+        id_etat: obj.id_etat,
       }));
       const slice = posts.slice(
         this.state.offset,
@@ -58,15 +61,13 @@ class Dashboard extends Component {
       const postData = slice.map((pd) => (
         <ListGroupItem>
           id de la commande : {pd.id} | total : {pd.total}€ | date :{" "}
-          {pd.date_commandes} | etat de la commande :{" "}
-          <select
-            id={pd.id}
-            name="etat_commande"
-            defaultValue={pd.etat_commandes}
-          >
-            <option value="réservé">réservé</option>
-            <option value="payé">payé</option>
-            <option value="annulé">annulé</option>
+          {pd.date_commandes} | etat de la commande :
+          <span className={pd.etat_commandes}>{pd.etat_commandes}</span> |
+          changer etat :
+          <select id={pd.id} name="etat_commande" defaultValue={pd.id_etat}>
+            <option value="1">vente</option>
+            <option value="2">réservation</option>
+            <option value="3">annulé</option>
           </select>
           <button onClick={() => this.changerEtat(pd.id)}>changer état</button>
         </ListGroupItem>

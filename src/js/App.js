@@ -17,10 +17,12 @@ import ChartMois from "../components/dashbord/ChartMois";
 import ChartAnnee from "../components/dashbord/chartAnnee";
 
 export default function App() {
+  /*
   const { token, setToken } = useToken();
   if (!token) {
     return <Connexion setToken={setToken} />;
   }
+  */
 
   return (
     <div className="wrapper">
