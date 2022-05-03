@@ -54,7 +54,11 @@ class ChartMois extends Component {
         this.state.date.push(res.data[i].date_commandes.slice(5, 7) - 1);
       }
       for (let i = 0; i < this.state.date.length; i++) {
-        this.state.mois.push(this.state.moisNom[i]);
+        this.state.mois.push(
+          this.state.moisNom[
+            parseInt(res.data[i].date_commandes.slice(5, 7) - 1)
+          ]
+        );
       }
     });
 

@@ -32,7 +32,6 @@ export default function Connexion({ setToken }) {
 
   return (
     <div className="login-wrapper">
-      <h1>Please Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
           <p>Nom d'utilisateur</p>
