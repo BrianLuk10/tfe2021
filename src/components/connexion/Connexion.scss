@@ -4,7 +4,7 @@
         margin-top:10%;
 }
 
-form {
+.login-wrapper form {
     width: 100%;
     padding: 30px;
     border: 1px solid #f1f1f1;
@@ -12,8 +12,8 @@ form {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-input[type=text],
-input[type=password] {
+.login-wrapper input[type=text],
+.login-wrapper input[type=password] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -22,7 +22,7 @@ input[type=password] {
     box-sizing: border-box;
 }
 
-button[type=submit] {
+.login-wrapper button[type=submit] {
     background-color: #1981e2;
     color: white;
     padding: 14px 20px;
@@ -32,7 +32,7 @@ button[type=submit] {
     width: 100%;
 }
 
-button[type=submit]:hover {
+.login-wrapper button[type=submit]:hover {
     background-color: white;
     color: #1981e2;
     border: 1px solid #1981e2

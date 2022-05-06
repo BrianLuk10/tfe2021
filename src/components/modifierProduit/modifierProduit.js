@@ -19,7 +19,6 @@ export default function ModifierProduit() {
     });
   }, []);
 
-
   //fonction pour filtrer les données en fonction de l'input qu'on rentre
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
@@ -46,41 +45,43 @@ export default function ModifierProduit() {
       <div>
         {searchInput.length > 1
           ? filteredResults.map((item) => {
-            return (
-              <div>
-                <ul className="list-group">
-                  <li key={item.nom_produits} className="list-group-item">
-                    <Link to={`${url}`}>
-                      <button>
-                        {" "}
-                        Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                        stock : {item.stock}
-                        &nbsp;&nbsp;
-                      </button>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            );
-          })
+              let url = "/modifierProduitPage/" + item.id_produits;
+              return (
+                <div>
+                  <ul className="list-group">
+                    <li key={item.nom_produits} className="list-group-item">
+                      <Link to={`${url}`}>
+                        <button>
+                          {" "}
+                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
+                          stock : {item.stock}
+                          &nbsp;&nbsp;
+                        </button>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              );
+            })
           : APIData.map((item) => {
-            return (
-              <div>
-                <ul className="list-group">
-                  <li key={item.nom_produits} className="list-group-item">
-                    <Link to={`${url}`}>
-                      <button>
-                        {" "}
-                        Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                        stock : {item.stock}
-                        &nbsp;&nbsp;
-                      </button>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            );
-          })}
+              let url = "/modifierProduitPage/" + item.id_produits;
+              return (
+                <div>
+                  <ul className="list-group">
+                    <li key={item.nom_produits} className="list-group-item">
+                      <Link to={`${url}`}>
+                        <button>
+                          {" "}
+                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
+                          stock : {item.stock}
+                          &nbsp;&nbsp;
+                        </button>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              );
+            })}
       </div>
     </div>
   );
