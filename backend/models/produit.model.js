@@ -23,7 +23,7 @@ Produit.create = (newProduit, result) => {
 
 Produit.findById = (id_produits, result) => {
   sql.query(
-    `SELECT p.id_produits, p.id_categorie, p.image_produits, p.nom_produits, p.prix_produits, cp.nom_categorie as categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join categorie_produits as cp inner join fournissements as f where p.id_produits = f.id_produits and p.id_categorie = cp.id_categorie and p.id_produits =  1 group by p.id_produits`,
+    `SELECT p.id_produits, p.id_categorie, p.image_produits, p.nom_produits, p.prix_produits, cp.nom_categorie as categorie_produits, sum(f.stock_produits) as stock FROM produits as p inner join categorie_produits as cp inner join fournissements as f where p.id_produits = f.id_produits and p.id_categorie = cp.id_categorie and p.id_produits = ${id_produits} group by p.id_produits`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

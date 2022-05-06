@@ -46,6 +46,7 @@ export default function ModifierProduit() {
         {searchInput.length > 1
           ? filteredResults.map((item) => {
               let url = "/modifierProduitPage/" + item.id_produits;
+              console.log(url);
               return (
                 <div>
                   <ul className="list-group">
@@ -65,6 +66,7 @@ export default function ModifierProduit() {
             })
           : APIData.map((item) => {
               let url = "/modifierProduitPage/" + item.id_produits;
+              console.log(url);
               return (
                 <div>
                   <ul className="list-group">

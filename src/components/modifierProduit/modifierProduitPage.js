@@ -102,6 +102,9 @@ export default class ModifierProduitPage extends React.Component {
       axios
         .get("http://localhost:3030/produit/" + this.state.id_produitPage)
         .then((res) => {
+          console.log(
+            "http://localhost:3030/produit/" + this.state.id_produitPage
+          );
           const produitdatavalue = res.data;
           console.log(produitdatavalue);
           this.setState({
