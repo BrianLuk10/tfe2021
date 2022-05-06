@@ -75,7 +75,7 @@ Commande.getAllToday = (result) => {
 
 Commande.getAll7Days = (result) => {
   sql.query(
-    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.id_etat = 1 or c.id_etat = 2) and c.id_commandes = cp.id_commandes where c.date_commandes >= CURDATE() - INTERVAL 1 WEEK group by day(c.date_commandes) desc",
+    "select sum(p.prix_produits * cp.nombre) as total, c.date_commandes from commande_produit as cp inner join produits as p inner join commandes as c on p.id_produits = cp.id_produits and (c.id_etat = 1 or c.id_etat = 2) and c.id_commandes = cp.id_commandes where c.date_commandes >= CURDATE() - INTERVAL 1 WEEK group by day(c.date_commandes) order by c.date_commandes",
     (err, res) => {
       if (err) {
         console.log("error: ", err);

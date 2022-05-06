@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 29 avr. 2022 à 15:04
+-- Généré le : ven. 06 mai 2022 à 16:51
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `tfe bdd`
+-- Base de données : `test`
 --
 
 -- --------------------------------------------------------
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `commandes` (
   `id_etat` int(11) NOT NULL,
   PRIMARY KEY (`id_commandes`),
   KEY `id_etat` (`id_etat`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `commandes`
@@ -80,7 +80,7 @@ INSERT INTO `commandes` (`id_commandes`, `date_commandes`, `id_etat`) VALUES
 (15, '2022-04-28 15:19:57', 1),
 (16, '2022-04-28 15:19:57', 1),
 (17, '2022-04-29 13:49:25', 3),
-(18, '2022-04-29 13:49:25', 3),
+(18, '2022-04-29 15:59:37', 1),
 (19, '2022-04-29 13:49:25', 2),
 (20, '2022-04-28 15:19:57', 1),
 (21, '2022-04-28 15:19:57', 1),
@@ -97,7 +97,21 @@ INSERT INTO `commandes` (`id_commandes`, `date_commandes`, `id_etat`) VALUES
 (32, '2022-04-28 15:19:57', 1),
 (33, '2022-04-28 15:19:57', 1),
 (34, '2022-04-28 15:19:57', 1),
-(35, '2022-04-28 15:19:57', 1);
+(35, '2022-04-28 15:19:57', 1),
+(36, '2022-04-29 15:35:13', 1),
+(37, '2022-04-29 15:35:50', 1),
+(38, '2022-04-29 15:37:07', 1),
+(39, '2022-04-29 15:37:21', 1),
+(40, '2022-04-29 15:40:21', 1),
+(41, '2022-04-29 15:40:44', 3),
+(42, '2022-04-29 15:51:14', 1),
+(43, '2022-04-29 15:51:33', 1),
+(44, '2022-04-29 15:57:41', 1),
+(45, '2022-04-29 16:17:03', 1),
+(46, '2022-04-29 16:53:30', 3),
+(47, '2022-04-29 17:49:33', 2),
+(48, '2022-05-03 18:19:02', 1),
+(49, '2022-05-06 16:44:39', 1);
 
 -- --------------------------------------------------------
 
@@ -147,7 +161,22 @@ INSERT INTO `commande_produit` (`id_commandes`, `id_produits`, `nombre`) VALUES
 (32, 1, 3),
 (33, 1, 1),
 (35, 3, 3),
-(35, 83, 6);
+(35, 83, 6),
+(36, 1, 1),
+(36, 2, 1),
+(36, 3, 1),
+(37, 1, 2),
+(37, 2, 1),
+(38, 1, 1),
+(39, 1, 1),
+(40, 1, 1),
+(41, 2, 1),
+(45, 1, 10),
+(46, 1, 10),
+(47, 1, 1),
+(48, 1, 2),
+(48, 2, 1),
+(49, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -186,21 +215,20 @@ CREATE TABLE IF NOT EXISTS `fournissements` (
   `exp_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id_fournissement`),
   KEY `fk_foreign_fournissements_produits` (`id_produits`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `fournissements`
 --
 
 INSERT INTO `fournissements` (`id_fournissement`, `id_produits`, `stock_produits`, `date_fournissement`, `exp_date`) VALUES
-(1, 1, 45, '2022-02-14 14:55:36', NULL),
-(2, 1, 0, '2022-02-14 14:54:02', NULL),
+(2, 1, 27, '2022-02-14 14:54:02', NULL),
 (3, 6, 0, '2022-02-14 13:06:48', NULL),
 (4, 5, 0, '2022-02-14 13:06:48', NULL),
 (5, 7, 0, '2022-01-12 12:05:50', NULL),
-(6, 3, 5, '2022-01-12 12:05:50', NULL),
+(6, 3, 4, '2022-01-12 12:05:50', NULL),
 (7, 4, 7, '2022-01-12 12:06:03', NULL),
-(8, 2, 9, '2022-01-12 12:09:08', NULL),
+(8, 2, 37, '2022-01-12 12:09:08', NULL),
 (9, 7, 12, '2022-01-28 18:23:57', NULL),
 (11, 36, 3, '2022-02-28 12:20:48', NULL),
 (27, 52, 0, '2022-02-28 12:20:48', NULL),
@@ -231,7 +259,9 @@ INSERT INTO `fournissements` (`id_fournissement`, `id_produits`, `stock_produits
 (53, 87, 60, '2022-04-10 19:35:46', NULL),
 (54, 88, 12, '2022-04-10 19:35:46', NULL),
 (55, 89, 20, '2022-04-10 19:35:46', NULL),
-(56, 90, 0, '2022-04-11 11:55:43', NULL);
+(56, 90, 0, '2022-04-11 11:55:43', NULL),
+(57, 12347, 0, '2022-04-29 13:21:55', NULL),
+(58, 12348, 0, '2022-04-29 14:34:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -252,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `historique_produits` (
   PRIMARY KEY (`id_historique`),
   KEY `id_statut` (`id_statut`),
   KEY `id_categorie` (`id_categorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `historique_produits`
@@ -349,7 +379,20 @@ INSERT INTO `historique_produits` (`id_historique`, `id_produits`, `nom_produits
 (136, 74, 'a supprimer', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-04-11 00:33:39'),
 (137, 75, 'a supprimer 2', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-03-17 17:45:57'),
 (138, 90, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-04-11 17:01:06'),
-(139, 73, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 3, 2, '2022-03-17 17:21:34');
+(139, 73, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 3, 2, '2022-03-17 17:21:34'),
+(140, 12346, 'test', NULL, '50.00', 1, 1, '2022-04-29 17:20:20'),
+(141, 12347, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 1, '2022-04-29 17:29:43'),
+(142, 12347, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-04-29 18:30:04'),
+(143, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 2, 1, '2022-04-11 16:00:23'),
+(144, 12348, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 2, 1, '2022-04-29 18:36:02'),
+(145, 12348, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 2, 2, '2022-04-29 19:36:09'),
+(146, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 2, 1, '2022-04-29 19:41:51'),
+(147, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 1, 1, '2022-04-29 19:46:34'),
+(148, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 2, 1, '2022-04-29 20:08:14'),
+(149, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 3, 1, '2022-04-29 20:08:42'),
+(150, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 1, 1, '2022-04-29 20:08:50'),
+(151, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 2, 1, '2022-04-29 20:28:22'),
+(152, 1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 1, 1, '2022-04-29 20:34:13');
 
 -- --------------------------------------------------------
 
@@ -364,19 +407,19 @@ CREATE TABLE IF NOT EXISTS `produits` (
   `image_produits` text,
   `prix_produits` decimal(11,2) DEFAULT NULL,
   `id_categorie` int(11) NOT NULL,
-  `id_statut` int(11) NOT NULL,
+  `id_statut` int(11) NOT NULL DEFAULT '1',
   `date_modification` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_produits`),
   KEY `id_statut` (`id_statut`),
   KEY `id_categorie` (`id_categorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=12345 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12349 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `produits`
 --
 
 INSERT INTO `produits` (`id_produits`, `nom_produits`, `image_produits`, `prix_produits`, `id_categorie`, `id_statut`, `date_modification`) VALUES
-(1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 1, 1, '2022-04-11 16:00:23'),
+(1, 'rose rouge petite', 'https://cdn.sessile.fr/wp-content/uploads/2022/02/sessile-rose-rouge.jpg', '3.00', 1, 1, '2022-04-29 20:34:13'),
 (2, 'bouquet rose rouge 25', 'https://www.max-le-fleuriste.fr/297-large_default/bouquet-de-roses-rouges.jpg', '90.00', 1, 1, '2022-03-17 17:42:51'),
 (3, 'bouquet élégant', 'https://cdn.shopify.com/s/files/1/0381/3556/2371/products/Elegant_3f2ae25e-d74d-408d-825d-691d3baae09f_600x.jpg?v=1601273408', '50.00', 1, 1, '2022-03-11 17:27:43'),
 (4, 'bouquet luxuriant', 'https://cdn.shopify.com/s/files/1/0381/3556/2371/products/Abondant2_600x.jpg?v=1601273409', '65.00', 1, 1, '2022-04-10 23:26:26'),
@@ -397,7 +440,10 @@ INSERT INTO `produits` (`id_produits`, `nom_produits`, `image_produits`, `prix_p
 (87, 'petit bouquet de chrysanthème', 'https://www.floristik24.be/media/images/popup/Chrysantheme-28cm-dunkelorange-6St-87551.jpg', '2.65', 1, 1, '2022-04-11 00:44:51'),
 (88, 'bouquet funéraire', 'https://cdn.fleurop.be/3fa43d3b-ff83-484a-ad24-3004a9793ef0/-/resize/600/', '38.00', 1, 1, '2022-04-10 23:46:18'),
 (89, 'chocolat mon cheri', 'https://www.kruidvat.be/medias/prd-front-4942092-1-600x600?context=bWFzdGVyfHByZC1pbWFnZXN8NjA1MjV8aW1hZ2UvanBlZ3xoOTEvaDY3LzEyMjk0NzQ3ODgxNTAyL3ByZC1mcm9udC00OTQyMDkyLTFfNjAweDYwMHwwOWQwOWVmYjc4YTJkNzJjZDJlMGJkZDAzMTVlZTIyMTBkNDk2YjE4MmM2Y2Q5MjdjOGY5ZGJhNWFiOTdlYWU0', '4.65', 2, 1, '2022-04-10 23:47:46'),
-(90, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-04-11 17:01:06');
+(90, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-04-11 17:01:06'),
+(12346, 'test', NULL, '50.00', 1, 1, '2022-04-29 17:20:20'),
+(12347, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 1, 2, '2022-04-29 18:30:04'),
+(12348, 'test', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png', '0.00', 2, 2, '2022-04-29 19:36:09');
 
 --
 -- Déclencheurs `produits`
@@ -443,40 +489,6 @@ INSERT INTO `statut_produits` (`id_statut`, `etat_statut`) VALUES
 --
 ALTER TABLE `commandes`
   ADD CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`id_etat`) REFERENCES `etat_commandes` (`id_etat`);
-
---
--- Contraintes pour la table `commande_produit`
---
-ALTER TABLE `commande_produit`
-  ADD CONSTRAINT `commande_produit_ibfk_1` FOREIGN KEY (`id_commandes`) REFERENCES `commandes` (`id_commandes`) ON DELETE CASCADE,
-  ADD CONSTRAINT `commande_produit_ibfk_2` FOREIGN KEY (`id_produits`) REFERENCES `produits` (`id_produits`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `historique_produits`
---
-ALTER TABLE `historique_produits`
-  ADD CONSTRAINT `historique_produits_ibfk_1` FOREIGN KEY (`id_statut`) REFERENCES `statut_produits` (`id_statut`),
-  ADD CONSTRAINT `historique_produits_ibfk_2` FOREIGN KEY (`id_categorie`) REFERENCES `categorie_produits` (`id_categorie`);
-
---
--- Contraintes pour la table `produits`
---
-ALTER TABLE `produits`
-  ADD CONSTRAINT `produits_ibfk_1` FOREIGN KEY (`id_produits`) REFERENCES `fournissements` (`id_produits`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `produits_ibfk_2` FOREIGN KEY (`id_statut`) REFERENCES `statut_produits` (`id_statut`),
-  ADD CONSTRAINT `produits_ibfk_3` FOREIGN KEY (`id_categorie`) REFERENCES `categorie_produits` (`id_categorie`);
-
-DELIMITER $$
---
--- Évènements
---
-DROP EVENT IF EXISTS `ajout_commande_jour`$$
-CREATE DEFINER=`root`@`localhost` EVENT `ajout_commande_jour` ON SCHEDULE EVERY 1 DAY STARTS '2022-03-26 00:01:00' ON COMPLETION NOT PRESERVE ENABLE DO insert into commandes(date_commandes,etat_commandes) VALUES(NOW(),'chart')$$
-
-DROP EVENT IF EXISTS `ajour_commande_produit_jour`$$
-CREATE DEFINER=`root`@`localhost` EVENT `ajour_commande_produit_jour` ON SCHEDULE EVERY 1 DAY STARTS '2022-03-26 00:02:00' ON COMPLETION NOT PRESERVE ENABLE DO insert into commande_produit(id_commandes, id_produits, nombre) VALUES((select max(id_commandes) from commandes),1,0)$$
-
-DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
