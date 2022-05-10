@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: dashbord/ChartMois.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: dashbord/ChartMois.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import axios from "axios";
+import { Bar } from "react-chartjs-2";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import {
+  Chart,
+  BarElement,
+  BarController,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+} from "chart.js";
+
+Chart.register(
+  BarElement,
+  BarController,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Tooltip
+);
+
+class ChartMois extends Component {
+  constructor() {
+    super();
+    this.state = {
+      total: [],
+      date: [],
+      isReady: false,
+      mois: [],
+      moisNom: [
+        "Janvier",
+        "Février",
+        "Mars",
+        "Avril",
+        "Mai",
+        "Juin",
+        "Juillet",
+        "Août",
+        "Septembre",
+        "Octobre",
+        "Novembre",
+        "Decembre",
+      ],
+    };
+  }
+
+  componentDidMount() {
+    axios.get("http://localhost:3030/commande/month").then((res) => {
+      for (let i = 0; i &lt; res.data.length; i++) {
+        this.state.total.push(res.data[i].total);
+        this.state.date.push(res.data[i].date_commandes.slice(5, 7) - 1);
+      }
+      for (let i = 0; i &lt; this.state.date.length; i++) {
+        this.state.mois.push(
+          this.state.moisNom[
+            parseInt(res.data[i].date_commandes.slice(5, 7) - 1)
+          ]
+        );
+      }
+    });
+
+    this.setState({ isReady: true });
+  }
+
+  /**
+   * render
+   * @returns {html}
+   */
+  render() {
+    return (
+      &lt;div>
+        &lt;Link to="/chartSemaine">
+          &lt;Button variant="dark">
+            &lt;span>graphique de la semaine&lt;/span>
+          &lt;/Button>
+        &lt;/Link>
+        &lt;Link to="/chartAnnee">
+          &lt;Button variant="dark">
+            &lt;span>graphique en année&lt;/span>
+          &lt;/Button>
+        &lt;/Link>
+        {this.state.isFetching ? (
+          &lt;div>Loading...&lt;/div>
+        ) : (
+          &lt;Bar
+            data={{
+              labels: this.state.mois,
+              datasets: [
+                {
+                  label: "Tableau total des mois de l'année en €",
+                  data: this.state.total,
+                  backgroundColor: [
+                    "rgb(255, 0, 0, 0.2)",
+                    "rgba(255, 128, 0, 0.2)",
+                    "rgba(255, 255, 0, 0.2)",
+                    "rgba(128, 255, 0, 0.2)",
+                    "rgba(0, 255, 0, 0.2)",
+                    "rgba(0, 255, 128, 0.2)",
+                    "rgba(0, 255, 255, 0.2)",
+                    "rgba(0, 128, 255, 0.2)",
+                    "rgba(0, 0, 255, 0.2)",
+                    "rgba(128, 0, 255, 0.2)",
+                    "rgba(255, 0, 255, 0.2)",
+                    "rgba(255, 0, 128, 0.2)",
+                  ],
+                  borderColor: [
+                    "rgb(255, 50, 50)",
+                    "rgba(255, 128, 50)",
+                    "rgba(255, 255, 50)",
+                    "rgba(128, 255, 10)",
+                    "rgba(50, 205, 60)",
+                    "rgba(0, 255, 128)",
+                    "rgba(60, 255, 255)",
+                    "rgba(80, 128, 255)",
+                    "rgba(50, 50, 255)",
+                    "rgba(128, 50, 255)",
+                    "rgba(255, 50, 255)",
+                    "rgba(255, 50, 128)",
+                  ],
+                  borderWidth: 1,
+                },
+              ],
+            }}
+            redraw={true}
+          />
+        )}
+      &lt;/div>
+    );
+  }
+}
+
+export default ChartMois;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculerPrixTotal">calculerPrixTotal</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#Modal2">Modal2</a></li><li><a href="global.html#onChangeValue">onChangeValue</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#Ticket">Ticket</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue May 10 2022 21:04:52 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

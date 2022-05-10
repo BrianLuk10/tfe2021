@@ -2,21 +2,31 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 
 let prixTotal = 0;
+
+/**
+ * fonction pour calculer le total des prix de la commande
+ * @param {number} a
+ * @param {number} b
+ */
 function calculerPrixTotal(a, b) {
   let prix = a * b;
   prixTotal += prix;
 }
-
+/**
+ * fonction affichage de la page de ticket de caisse
+ * @returns {html, React.ReactElement} page du ticket
+ */
 function Ticket() {
   let articleShow;
   let posts;
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   let componentRef = useRef(null);
   const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1
-    }/${current.getFullYear()}`;
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
 
   let data = JSON.parse(sessionStorage.getItem("save"));
   sessionStorage.setItem("caisse", JSON.stringify(data));
@@ -43,7 +53,6 @@ function Ticket() {
   } catch {
     console.log("pas d'article");
   }
-
 
   return (
     <div>

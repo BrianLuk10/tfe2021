@@ -3,7 +3,9 @@ import axios from "axios";
 import "./AjoutProduit.css";
 import Confirmer from "../modifierProduit/Confirmer";
 
-//obtenir la date actuelle
+/*
+ variable pour obtenir la date actuelle, utilisé dans un state date qui elle-même est appelé quand l'utilisateur choisit la date de fournissement
+ */
 const current_date = new Date().toISOString().slice(0, 19).replace("T", " ");
 
 export default class Caisse extends React.Component {
@@ -22,14 +24,21 @@ export default class Caisse extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  //fonction confirmer qui change l'etat du state
+  /*
+   fonction confirmer qui change l'etat du state, renvoie un state
+   */
+
   confirmer = () => {
     this.setState({
       showConfirm: false,
     });
   };
 
-  //fonction qui permet de changer l'état pour correspondre à ce qui a été écrit
+  /**
+   * fonction qui permet de changer l'état pour correspondre à ce qui a été écrit, renvoie state
+   *
+   * @param {any} e
+   */
   handleChange(e) {
     const name = e.target.name;
     this.setState({
@@ -37,7 +46,11 @@ export default class Caisse extends React.Component {
     });
   }
 
-  //fonction valider envoie les données dans la BDD
+  /**
+   * fonction valider envoie les données dans la BDD puis renvoie un message de confirmation avec un state boolean qui affiche le message
+   *
+   * @param {any} e
+   */
   submitHandler = (e) => {
     e.preventDefault();
     axios.post("http://localhost:3030/produit", this.state).then((response) => {
@@ -49,14 +62,17 @@ export default class Caisse extends React.Component {
       };
       axios
         .post("http://localhost:3030/fournissement/", data_fournissement)
-        .then((response) => {
-        });
+        .then((response) => {});
     });
     this.setState({
       showConfirm: true,
     });
   };
 
+  /**
+   * render
+   * @returns {html} page d'ajout des caisses
+   */
   render() {
     return (
       <div>

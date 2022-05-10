@@ -1,5 +1,12 @@
 import React from "react";
 
+/**
+ * function pour afficher le message de confirmation car la fonction alert() ne fonctionne pas avec Electron.js => BUG
+ * @param {*} show
+ * @param {*} confirmer
+ * @param {boolean} si show est false affiche rien sinon affiche le message de confirmation
+ * @returns {html} message de confimation
+ */
 export default function Confirmer({ show, confirmer }) {
   if (!show) {
     return <></>;

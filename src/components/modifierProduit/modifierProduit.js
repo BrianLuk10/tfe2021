@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+/**
+ * fonction pour afficher la page de la liste des produits ajoutés
+ * @returns {html}
+ */
 export default function ModifierProduit() {
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
@@ -19,7 +23,12 @@ export default function ModifierProduit() {
     });
   }, []);
 
-  //fonction pour filtrer les données en fonction de l'input qu'on rentre
+  /**
+   * fonction qui permet de filtrer les données avec ce qu'on écrit
+   * @param {string} searchValue
+   * @param {boolean} affiche un resultat en Object en fonction de ce qu'on écrit si vide ou non
+   * @return {Object.values}
+   */
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
     if (searchInput !== "") {

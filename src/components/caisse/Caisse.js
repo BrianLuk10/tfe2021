@@ -1,14 +1,23 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import "./Caisse.css";
 import ReactToPrint from "react-to-print";
 
-//initialisation du prix total à 0 lorsqu'on arrive vers cette page
+/*
+initialisation du prix total à 0 lorsqu'on arrive vers cette page
+*/
 let prixTotal = 0;
 
-//création du Modal des produit, renvoie un modal avec un choix de 1 à 10 du produit
+/**
+ *création du Modal des produits, renvoie un modal avec un choix de 1 à 10 du produit
+ * @param {any} handleClose
+ * @param {any} validerModal
+ * @param {any} show
+ * @param {any} children
+ * @returns {React.ReactElement}
+ */
 const Modal = ({ handleClose, validerModal, show, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
@@ -36,8 +45,12 @@ const Modal = ({ handleClose, validerModal, show, children }) => {
   );
 };
 
-
-//création du Modal si le stock du produit est à 0, renvoie 'plus disponible'
+/**
+ * création du Modal si le stock du produit est à 0, renvoie 'plus disponible'
+ * @param {any} handleClose2
+ * @param {any} show2
+ * @returns
+ */
 const Modal2 = ({ handleClose2, show2 }) => {
   const showHideClassName2 = show2
     ? "modal display-block"
@@ -79,7 +92,10 @@ export default class Caisse extends React.Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
-  //fonciton qui per;et d'afficher le modal des produits, est appelé lorsqu'on clique sur l'image du produit dans la caisse
+  /**
+   * fonction qui permet d'afficher le modal des produits, est appelé lorsqu'on clique sur l'image du produit dans la caisse
+   * @param pd (post data)
+   */
   showModal = (pd) => {
     if (pd.stock > 0) {
       var slider = document.getElementById("myRange");
@@ -100,7 +116,9 @@ export default class Caisse extends React.Component {
     }
   };
 
-  //fonction qui remet l'etat de la caisse à 0 et sauvegarde l'etat de la caisse actuelle dans un sessionStorage, est appelé une fois la caisse fini
+  /*
+  fonction qui remet l'etat de la caisse à 0 et sauvegarde l'etat de la caisse actuelle dans un sessionStorage, est appelé une fois la caisse fini et recharge la page avec componentDidMount
+  */
   reset = () => {
     sessionStorage.setItem("save", JSON.stringify(this.state.caisse));
     axios.post("http://localhost:3030/commande");
@@ -124,17 +142,23 @@ export default class Caisse extends React.Component {
     this.componentDidMount();
   };
 
-  //cache le modal des produit
+  /*
+  cache le modal des produit, renvoie un state boolean false
+  */
   hideModal = () => {
     this.setState({ show: false });
   };
 
-  //cache le modal 'plus disponible'
+  /*
+  cache le modal 'plus disponible',  renvoie un state boolean false
+  */
   hideModal2 = () => {
     this.setState({ show2: false });
   };
 
-  //une fois le modal valider, le cache et ajoute les données dans la caisse avec un sessionStorage
+  /*
+  une fois le modal valider, le cache et ajoute les données dans la caisse avec un sessionStorage
+  */
   validerModal = () => {
     this.setState({ show: false });
     var slider = document.getElementById("myRange");
@@ -148,19 +172,26 @@ export default class Caisse extends React.Component {
     }
   };
 
-  //fonction simple de calcul pour calculer le prix total de la caisse
+  /*
+  fonction simple de calcul pour calculer le prix total de la caisse
+  */
   calculerPrixTotal = (a, b) => {
     let prix = a * b;
     prixTotal += prix;
   };
 
-  //fonction qui change la value du state lorsqu'on la change, est utilisé pour les SELECT/OPTION html pour les catégories des produits.
+  /**
+   * fonction qui change la value du state lorsqu'on la change, est utilisé pour les SELECT/OPTION html pour les catégories des produits.
+   * @param e
+   */
   onChangeValue(e) {
     this.setState({ value: e.target.value });
     this.componentDidMount();
   }
 
-  //fonction componentDidMount, méthode de React pour recevoir les données des produits de la caisse via une API et les affichent.
+  /*
+  fonction componentDidMount, méthode de React pour recevoir les données des produits de la caisse via une API et les affichent.
+  */
   componentDidMount() {
     axios.get(`http://localhost:3030/produit`).then((res) => {
       let filter;
@@ -236,7 +267,10 @@ export default class Caisse extends React.Component {
     }
   }
 
-  //fonction qui permet de changer de page
+  /**
+   * fonction qui permet de changer de page, renvoie un state et recharge la page en appelant le componentDidMount
+   * @param e
+   */
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
@@ -252,6 +286,10 @@ export default class Caisse extends React.Component {
     );
   };
 
+  /**
+   * render
+   * @returns {html} page de caisse
+   */
   render() {
     return (
       <div>

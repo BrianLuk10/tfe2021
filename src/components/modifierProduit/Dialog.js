@@ -1,6 +1,14 @@
 import React from "react";
 
-export default function Dialog({ show, confirm, cancel, cancelDialog }) {
+/**
+ * function pour afficher le message de confirmation pour supprimer le produit car la fonction alert() ne fonctionne pas avec Electron.js => BUG
+ * @param {*} show
+ * @param {*} confirmer
+ * @param {*} cancel
+ * @param {boolean} si show est false affiche rien sinon affiche le message de confirmation
+ * @returns {html} message de confimation
+ */
+export default function Dialog({ show, confirm, cancel }) {
   if (!show) {
     return <></>;
   }

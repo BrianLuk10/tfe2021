@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./Connexion.scss";
 
-//fonction asynchrone permet de d'envoyer le token de la connexion actuelle
+/**
+ * fonction asynchrone permet de d'envoyer le token de la connexion actuelle
+ * @param {*} credentials
+ * @returns  {Promise<Object>}
+ */
 async function loginUser(credentials) {
   return fetch("http://localhost:3030/token", {
     method: "POST",
@@ -12,11 +16,19 @@ async function loginUser(credentials) {
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
 }
+/**
+ *
+ * @param {string} setToken
+ * @returns {html}
+ */
 export default function Connexion({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
-  //hardcodage nom utilisateur et mot de passe
+  /**
+   * hardcodage nom utilisateur et mot de passe TFE "test"
+   * @param e
+   */
   const handleSubmit = async (e) => {
     if (username == "test" && password == "test") {
       e.preventDefault();
@@ -45,7 +57,9 @@ export default function Connexion({ setToken }) {
           />
         </label>
         <div>
-          <button type="submit">Valider</button>
+          <button type="submit" className="test">
+            Valider
+          </button>
         </div>
       </form>
     </div>

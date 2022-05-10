@@ -23,21 +23,27 @@ export default class ModifierProduitPage extends React.Component {
     this.openDialog = this.openDialog.bind(this);
   }
 
-  //ouverture du modal avec un state true/false
+  /*
+  ouverture du modal avec un state true/false
+  */
   openDialog() {
     this.setState({
       showDialog: true,
     });
   }
 
-  //fermeture du modal avec un state true/false
+  /*
+  fermeture du modal avec un state true/false
+  */
   confirmer = () => {
     this.setState({
       showConfirm: false,
     });
   };
 
-  //une fois le choix confirmer, envoie les données dans la BDD via l'API et fermeture du modal avec un state true/false
+  /*
+  une fois le choix confirmer, envoie les données dans la BDD via l'API et fermeture du modal avec un state true/false
+  */
   confirm = () => {
     axios
       .put("http://localhost:3030/produitModify/" + this.state.id_produitPage)
@@ -51,20 +57,29 @@ export default class ModifierProduitPage extends React.Component {
     window.history.back();
   };
 
-  //annulation du modal avec en le faisant disparaitre avec un state true/false
+  /*
+    annulation du modal avec en le faisant disparaitre avec un state true/false, le met à false pour que le message s'affiche plus
+   */
   cancelDialog = () => {
     this.setState({
       showDialog: false,
     });
   };
 
+  /**
+   * fonction pour changer l'état dynamiquement
+   * @param e
+   */
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
     console.log(this.state);
   }
 
-  //envoie des données dans la BDD et fermeture du modal
+  /**
+   * envoie des données dans la BDD et fermeture du modal
+   * @param e
+   */
   submitHandler = (e) => {
     e.preventDefault();
     axios
@@ -90,7 +105,9 @@ export default class ModifierProduitPage extends React.Component {
     });
   };
 
-  //méthode react pour obtenir les données du produit en cours en fonction de son id et les affiches
+  /*
+  méthode react pour obtenir les données du produit en cours en fonction de son id et les affiches
+  */
   componentDidMount() {
     let url = window.location.href;
     let getNumber = url
@@ -120,6 +137,10 @@ export default class ModifierProduitPage extends React.Component {
     );
   }
 
+  /**
+   * render
+   * @returns {html}
+   */
   render() {
     return (
       <div>

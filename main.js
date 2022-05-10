@@ -18,7 +18,7 @@ function createWindow() {
     },
   });
 
-  mainWindow.removeMenu();
+  //mainWindow.removeMenu();
 
   toaster.init(mainWindow);
 

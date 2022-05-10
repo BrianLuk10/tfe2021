@@ -5,6 +5,10 @@ import { Button } from "react-bootstrap";
 import "./historique.css";
 import Confirmer from "../modifierProduit/Confirmer";
 
+/**
+ * fonction affiche la page historique
+ * @returns {html, React.ReactElement}
+ */
 export default function Historique() {
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
@@ -30,7 +34,12 @@ export default function Historique() {
     });
   }, []);
 
-  //fonction qui permet de filtrer les données avec ce qu'on écrit
+  /**
+   * fonction qui permet de filtrer les données avec ce qu'on écrit
+   * @param {string} searchValue
+   * @param {boolean} affiche un resultat en Object en fonction de ce qu'on écrit si vide ou non
+   * @return {Object.values}
+   */
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
     if (searchInput !== "") {
@@ -46,12 +55,18 @@ export default function Historique() {
     }
   };
 
+  /*
+   fonction confirmation qui fait disparaitre le message de confirmation avec un state 
+   */
   const confirmer = () => {
     setConfirm((showConfirm) => !showConfirm);
     window.history.back();
   };
 
-  //fonction pour supprimer une donnée définitivement
+  /**
+   * fonction pour supprimer une donnée définitivement, un message de confirmation apparait en changeant le state
+   * @param {integer} id
+   */
   const supprimerHistorique = (id) => {
     axios.delete(`http://localhost:3030/historique/` + id);
     setConfirm((showConfirm) => !showConfirm);
@@ -73,61 +88,61 @@ export default function Historique() {
         <div>
           {searchInput.length > 1
             ? filteredResults.map((item) => {
-              let url = "/modifierProduitPage/" + item.id_produits;
-              return (
-                <div>
-                  <ul className="list-group">
-                    <li key={item.id_produits} className="list-group-item">
-                      id : {item.id_produits}
-                      &nbsp;&nbsp; Nom du produit : {item.nom_produits}{" "}
-                      &nbsp;&nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
-                      &nbsp;&nbsp; stock : {item.stock} &nbsp;&nbsp; categorie
-                      : {item.categorie_produits}
-                      &nbsp;&nbsp;status : {item.statut} &nbsp;&nbsp; Date de
-                      modification : {item.date_modification}
-                      <button
-                        className="button-40"
-                        role="button"
-                        onClick={() =>
-                          supprimerHistorique(item.id_historique)
-                        }
-                      >
-                        supprimé
-                      </button>
-                    </li>
-                  </ul>
-                  <Confirmer show={showConfirm} confirmer={confirmer} />
-                </div>
-              );
-            })
+                let url = "/modifierProduitPage/" + item.id_produits;
+                return (
+                  <div>
+                    <ul className="list-group">
+                      <li key={item.id_produits} className="list-group-item">
+                        id : {item.id_produits}
+                        &nbsp;&nbsp; Nom du produit : {item.nom_produits}{" "}
+                        &nbsp;&nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
+                        &nbsp;&nbsp; stock : {item.stock} &nbsp;&nbsp; categorie
+                        : {item.categorie_produits}
+                        &nbsp;&nbsp;status : {item.statut} &nbsp;&nbsp; Date de
+                        modification : {item.date_modification}
+                        <button
+                          className="button-40"
+                          role="button"
+                          onClick={() =>
+                            supprimerHistorique(item.id_historique)
+                          }
+                        >
+                          supprimé
+                        </button>
+                      </li>
+                    </ul>
+                    <Confirmer show={showConfirm} confirmer={confirmer} />
+                  </div>
+                );
+              })
             : APIData.map((item) => {
-              let url = "/modifierProduitPage/" + item.id_produits;
-              return (
-                <div>
-                  <ul className="list-group">
-                    <li key={item.id_produits} className="list-group-item">
-                      id : {item.id_produits}
-                      &nbsp;&nbsp; Nom du produit : {item.nom_produits}{" "}
-                      &nbsp;&nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
-                      &nbsp;&nbsp; stock : {item.stock} &nbsp;&nbsp; categorie
-                      : {item.categorie_produits}
-                      &nbsp;&nbsp;status : {item.statut} &nbsp;&nbsp; Date de
-                      modification : {item.date_modification}
-                      <button
-                        className="button-40"
-                        role="button"
-                        onClick={() =>
-                          supprimerHistorique(item.id_historique)
-                        }
-                      >
-                        supprimé
-                      </button>
-                    </li>
-                  </ul>
-                  <Confirmer show={showConfirm} confirmer={confirmer} />
-                </div>
-              );
-            })}
+                let url = "/modifierProduitPage/" + item.id_produits;
+                return (
+                  <div>
+                    <ul className="list-group">
+                      <li key={item.id_produits} className="list-group-item">
+                        id : {item.id_produits}
+                        &nbsp;&nbsp; Nom du produit : {item.nom_produits}{" "}
+                        &nbsp;&nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
+                        &nbsp;&nbsp; stock : {item.stock} &nbsp;&nbsp; categorie
+                        : {item.categorie_produits}
+                        &nbsp;&nbsp;status : {item.statut} &nbsp;&nbsp; Date de
+                        modification : {item.date_modification}
+                        <button
+                          className="button-40"
+                          role="button"
+                          onClick={() =>
+                            supprimerHistorique(item.id_historique)
+                          }
+                        >
+                          supprimé
+                        </button>
+                      </li>
+                    </ul>
+                    <Confirmer show={showConfirm} confirmer={confirmer} />
+                  </div>
+                );
+              })}
         </div>
       </div>
     </div>

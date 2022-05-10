@@ -43,6 +43,10 @@ class ChartSemaine extends Component {
     this.setState({ isReady: true });
   }
 
+  /**
+   * render
+   * @returns {html}
+   */
   render() {
     return (
       <div>

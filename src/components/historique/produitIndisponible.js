@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Confirmer from "../modifierProduit/Confirmer";
 
+/**
+ * fonction affiche produit indisponible
+ * @returns {html, React.ReactElement}
+ */
 export default function ProduitIndiponible() {
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
@@ -26,6 +30,12 @@ export default function ProduitIndiponible() {
     });
   }, []);
 
+  /**
+   * fonction qui permet de filtrer les données avec ce qu'on écrit
+   * @param {string} searchValue
+   * @param {boolean} affiche un resultat en Object en fonction de ce qu'on écrit si vide ou non
+   * @return {Object.values}
+   */
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
     if (searchInput !== "") {
@@ -41,12 +51,18 @@ export default function ProduitIndiponible() {
     }
   };
 
+  /*
+   fonction pour faire disparaitre le message de confirmation avec un state en false 
+   */
   const confirmer = () => {
     setConfirm((showConfirm) => !showConfirm);
     window.history.back();
   };
 
-  //fonction pour restaurer un produit non disponible
+  /**
+   * fonction pour restaurer un produit non disponible, message de confirmation apparait avec un state boolean
+   * @param id
+   */
   const restore = (id) => {
     axios.put("http://localhost:3030/produitRestore/" + id);
     setConfirm((showConfirm) => !showConfirm);
@@ -62,51 +78,51 @@ export default function ProduitIndiponible() {
       <div>
         {searchInput.length > 1
           ? filteredResults.map((item) => {
-            let url = "/modifierProduitPage/" + item.id_produits;
-            return (
-              <div>
-                <ul className="list-group">
-                  <li className="list-group-item">
-                    Nom du produit :{item.nom_produits} &nbsp;&nbsp; stock :{" "}
-                    {item.stock}
-                    &nbsp;&nbsp; Date de modification :
-                    {item.date_modification}
-                    <button
-                      className="button-30"
-                      role="button"
-                      onClick={() => restore(item.id_produits)}
-                    >
-                      restorer le produit
-                    </button>
-                  </li>
-                </ul>
-                <Confirmer show={showConfirm} confirmer={confirmer} />
-              </div>
-            );
-          })
+              let url = "/modifierProduitPage/" + item.id_produits;
+              return (
+                <div>
+                  <ul className="list-group">
+                    <li className="list-group-item">
+                      Nom du produit :{item.nom_produits} &nbsp;&nbsp; stock :{" "}
+                      {item.stock}
+                      &nbsp;&nbsp; Date de modification :
+                      {item.date_modification}
+                      <button
+                        className="button-30"
+                        role="button"
+                        onClick={() => restore(item.id_produits)}
+                      >
+                        restorer le produit
+                      </button>
+                    </li>
+                  </ul>
+                  <Confirmer show={showConfirm} confirmer={confirmer} />
+                </div>
+              );
+            })
           : APIData.map((item) => {
-            let url = "/modifierProduitPage/" + item.id_produits;
-            return (
-              <div>
-                <ul className="list-group">
-                  <li className="list-group-item">
-                    Nom du produit : {item.nom_produits} &nbsp;&nbsp; stock :{" "}
-                    {item.stock}
-                    &nbsp;&nbsp; Date de modification :
-                    {item.date_modification}
-                    <button
-                      className="button-30"
-                      role="button"
-                      onClick={() => restore(item.id_produits)}
-                    >
-                      restorer le produit
-                    </button>
-                  </li>
-                </ul>
-                <Confirmer show={showConfirm} confirmer={confirmer} />
-              </div>
-            );
-          })}
+              let url = "/modifierProduitPage/" + item.id_produits;
+              return (
+                <div>
+                  <ul className="list-group">
+                    <li className="list-group-item">
+                      Nom du produit : {item.nom_produits} &nbsp;&nbsp; stock :{" "}
+                      {item.stock}
+                      &nbsp;&nbsp; Date de modification :
+                      {item.date_modification}
+                      <button
+                        className="button-30"
+                        role="button"
+                        onClick={() => restore(item.id_produits)}
+                      >
+                        restorer le produit
+                      </button>
+                    </li>
+                  </ul>
+                  <Confirmer show={showConfirm} confirmer={confirmer} />
+                </div>
+              );
+            })}
       </div>
     </div>
   );

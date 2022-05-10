@@ -18,6 +18,10 @@ class Dashboard extends Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
+  /**
+   * fonction pour changer de page
+   * @param e
+   */
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
@@ -32,6 +36,10 @@ class Dashboard extends Component {
     );
   };
 
+  /**
+   * changer l'état d'une commande (annulation, reservation ou vente), puis "recharge la page" dynamiquement en appellant componentDidMount
+   * @param x
+   */
   changerEtat(x) {
     var etat = document.getElementById(x).value;
     axios.put("http://localhost:3030/commande/" + x, {
@@ -79,6 +87,10 @@ class Dashboard extends Component {
     });
   }
 
+  /**
+   * render
+   * @returns {html}
+   */
   render() {
     return (
       <div>

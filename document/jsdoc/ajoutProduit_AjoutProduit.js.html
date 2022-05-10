@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ajoutProduit/AjoutProduit.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ajoutProduit/AjoutProduit.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import axios from "axios";
+import "./AjoutProduit.css";
+import Confirmer from "../modifierProduit/Confirmer";
+
+/*
+ variable pour obtenir la date actuelle, utilisé dans un state date qui elle-même est appelé quand l'utilisateur choisit la date de fournissement
+ */
+const current_date = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+export default class Caisse extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nom_produits: "",
+      image_produits:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Pas_d%27image_disponible.svg/300px-Pas_d%27image_disponible.svg.png",
+      prix_produits: 0.0,
+      id_categorie: 1,
+      stock: 0,
+      date_fournissement: current_date,
+    };
+    this.state.showConfirm = false;
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  /*
+   fonction confirmer qui change l'etat du state, renvoie un state
+   */
+
+  confirmer = () => {
+    this.setState({
+      showConfirm: false,
+    });
+  };
+
+  /**
+   * fonction qui permet de changer l'état pour correspondre à ce qui a été écrit, renvoie state
+   *
+   * @param {any} e
+   */
+  handleChange(e) {
+    const name = e.target.name;
+    this.setState({
+      [name]: e.target.value,
+    });
+  }
+
+  /**
+   * fonction valider envoie les données dans la BDD puis renvoie un message de confirmation avec un state boolean qui affiche le message
+   *
+   * @param {any} e
+   */
+  submitHandler = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3030/produit", this.state).then((response) => {
+      const data_fournissement = {
+        id_produits: response.data.id,
+        date_fournissement: this.state.date_fournissement,
+        stock_produits: this.state.stock,
+        exp_date: null,
+      };
+      axios
+        .post("http://localhost:3030/fournissement/", data_fournissement)
+        .then((response) => {});
+    });
+    this.setState({
+      showConfirm: true,
+    });
+  };
+
+  /**
+   * render
+   * @returns {html} page d'ajout des caisses
+   */
+  render() {
+    return (
+      &lt;div>
+        &lt;form onSubmit={this.submitHandler}>
+          &lt;div className={"row-wrapper"}>
+            &lt;div className="column-wrapper contact">
+              &lt;h2>Produit a ajouté dans la caisse&lt;/h2>
+              &lt;div>
+                &lt;label htmlFor="Nom">Nom du produit :&lt;/label>
+                &lt;input
+                  type="texte"
+                  id="nom_produits"
+                  name="nom_produits"
+                  value={this.state.nom_produits}
+                  onChange={this.handleChange}
+                  required
+                />
+              &lt;/div>
+              &lt;div>
+                &lt;label htmlFor="Lien">Lien URL de l'image :&lt;/label>
+                &lt;input
+                  type="texte"
+                  id="image_produits"
+                  name="image_produits"
+                  value={this.state.image_produits}
+                  onChange={this.handleChange}
+                  required
+                />
+              &lt;/div>
+              &lt;div>
+                &lt;label htmlFor="Prix">Prix :&lt;/label>
+                &lt;input
+                  type="number"
+                  min="0"
+                  step=".01"
+                  id="prix_produits"
+                  name="prix_produits"
+                  value={this.state.prix_produits}
+                  onChange={this.handleChange}
+                  required
+                />
+              &lt;/div>
+              &lt;div>
+                &lt;label htmlFor="Cat">categorie :&lt;/label>
+                &lt;select
+                  id="id_categorie"
+                  name="id_categorie"
+                  value={this.state.id_categorie}
+                  onChange={this.handleChange}
+                >
+                  &lt;option value="1">fleur&lt;/option>
+                  &lt;option value="2">consommable&lt;/option>
+                  &lt;option value="3">décoration&lt;/option>
+                &lt;/select>
+              &lt;/div>
+
+              &lt;div>
+                &lt;label htmlFor="Stock">En stock :&lt;/label>
+                &lt;input
+                  type="number"
+                  min="0"
+                  step="1"
+                  id="stock"
+                  name="stock"
+                  value={this.state.stock}
+                  onChange={this.handleChange}
+                  required
+                />
+              &lt;/div>
+              &lt;div>
+                &lt;label htmlFor="Date">Date &amp; heure du fournissement :&lt;/label>
+                &lt;input
+                  type="datetime-local"
+                  id="data_fournissement"
+                  name="data_fournissement"
+                  value={this.state.data_fournissement}
+                  onChange={this.handleChange}
+                  required
+                />
+              &lt;/div>
+              &lt;div className="confirmer">
+                &lt;button
+                  className="btn btn-primary"
+                  type="submit"
+                  id="sub"
+                  name="sub"
+                >
+                  Ajouter
+                &lt;/button>
+              &lt;/div>
+              &lt;Confirmer
+                show={this.state.showConfirm}
+                confirmer={this.confirmer}
+              />
+            &lt;/div>
+          &lt;/div>
+        &lt;/form>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculerPrixTotal">calculerPrixTotal</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#Modal2">Modal2</a></li><li><a href="global.html#onChangeValue">onChangeValue</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#Ticket">Ticket</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue May 10 2022 21:04:52 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
