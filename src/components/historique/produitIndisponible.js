@@ -83,10 +83,11 @@ export default function ProduitIndiponible() {
                 <div>
                   <ul className="list-group">
                     <li className="list-group-item">
-                      Nom du produit :{item.nom_produits} &nbsp;&nbsp; stock :{" "}
-                      {item.stock}
-                      &nbsp;&nbsp; Date de modification :
-                      {item.date_modification}
+                      id du produit : {item.id_produits} &nbsp;&nbsp; Nom du
+                      produit :{item.nom_produits} &nbsp;&nbsp; catégorie :{" "}
+                      {item.categorie_produits} &nbsp;&nbsp;prix :
+                      {item.prix_produits}&nbsp;&nbsp; stock : {item.stock}
+                      &nbsp;&nbsp; Date de suppression :{item.date_modification}
                       <button
                         className="button-30"
                         role="button"
@@ -106,10 +107,11 @@ export default function ProduitIndiponible() {
                 <div>
                   <ul className="list-group">
                     <li className="list-group-item">
-                      Nom du produit : {item.nom_produits} &nbsp;&nbsp; stock :{" "}
-                      {item.stock}
-                      &nbsp;&nbsp; Date de modification :
-                      {item.date_modification}
+                      id du produit : {item.id_produits} &nbsp;&nbsp; Nom du
+                      produit :{item.nom_produits} &nbsp;&nbsp; catégorie :{" "}
+                      {item.categorie_produits} &nbsp;&nbsp;prix :
+                      {item.prix_produits}&nbsp;&nbsp; stock : {item.stock}
+                      &nbsp;&nbsp; Date de suppression :{item.date_modification}
                       <button
                         className="button-30"
                         role="button"

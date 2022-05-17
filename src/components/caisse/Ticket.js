@@ -58,9 +58,13 @@ function Ticket() {
     <div>
       <ReactToPrint
         trigger={() => (
-          <div>
-            <button>print</button>
-          </div>
+          <button class="btn">
+            <img
+              src="https://icon-library.com/images/print-page-icon/print-page-icon-5.jpg"
+              width={25}
+              height={25}
+            ></img>
+          </button>
         )}
         content={() => componentRef}
       />

@@ -298,9 +298,12 @@ export default class Caisse extends React.Component {
           {this.state.articleShow}
           <div className="Total">Total à payer: {prixTotal.toFixed(2)} €</div>
           <Link to="/ticket">
-            <button onClick={this.reset}>
-              <span>ticket</span>
-            </button>
+            <img
+              src="https://icon-library.com/images/print-page-icon/print-page-icon-5.jpg"
+              width={30}
+              height={30}
+              onClick={this.reset}
+            ></img>
           </Link>
         </div>
         <div className="col-lg-9 col-sm-12 right">
