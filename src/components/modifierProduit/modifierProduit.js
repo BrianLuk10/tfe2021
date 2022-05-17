@@ -45,7 +45,7 @@ export default function ModifierProduit() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div data-testid="searchBar" style={{ padding: 20 }}>
       <input
         icon="search"
         placeholder="Rechercher..."
@@ -62,10 +62,10 @@ export default function ModifierProduit() {
                     <li key={item.nom_produits} className="list-group-item">
                       <Link to={`${url}`}>
                         <button>
-                          {" "}
-                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                          stock : {item.stock}
-                          &nbsp;&nbsp;
+                          Nom du produit : {item.nom_produits} &nbsp;&nbsp; prix
+                          : {item.prix_produits} &nbsp;&nbsp; catégorie :
+                          {item.categorie_produits} &nbsp;&nbsp; stock :
+                          {item.stock} &nbsp;&nbsp;
                         </button>
                       </Link>
                     </li>
@@ -82,9 +82,10 @@ export default function ModifierProduit() {
                     <li key={item.nom_produits} className="list-group-item">
                       <Link to={`${url}`}>
                         <button>
-                          {" "}
-                          Nom du produit : {item.nom_produits} &nbsp;&nbsp;
-                          stock : {item.stock}
+                          Nom du produit : {item.nom_produits} &nbsp;&nbsp; prix
+                          : {item.prix_produits} &nbsp;&nbsp; catégorie :
+                          {item.categorie_produits} &nbsp;&nbsp; stock :
+                          {item.stock}
                           &nbsp;&nbsp;
                         </button>
                       </Link>

@@ -29,7 +29,7 @@ const Modal = ({ handleClose, validerModal, show, children }) => {
           type="range"
           min="1"
           max="10"
-          class="slider"
+          className="slider"
           id="myRange"
         ></input>
         <div id="result"></div>
@@ -225,6 +225,7 @@ export default class Caisse extends React.Component {
             />
             <div>{pd.nom}</div>
             <div>{pd.prix.toFixed(2)}€</div>
+            <div className={`dot${pd.stock}`}></div>
             <div className={`test${pd.stock}`}>stock : {pd.stock}</div>
           </div>
         </React.Fragment>
@@ -292,8 +293,8 @@ export default class Caisse extends React.Component {
    */
   render() {
     return (
-      <div>
-        <div class="col-lg-3 col-sm-12 left">
+      <div data-testid="Test">
+        <div className="col-lg-3 col-sm-12 left">
           {this.state.articleShow}
           <div className="Total">Total à payer: {prixTotal.toFixed(2)} €</div>
           <Link to="/ticket">
@@ -302,7 +303,7 @@ export default class Caisse extends React.Component {
             </button>
           </Link>
         </div>
-        <div class="col-lg-9 col-sm-12 right">
+        <div className="col-lg-9 col-sm-12 right">
           <Modal
             show={this.state.show}
             handleClose={this.hideModal}

@@ -41,6 +41,8 @@ class ChartAnnee extends Component {
     });
 
     this.setState({ isReady: true });
+    console.log(this.state.date);
+    console.log(this.state.total);
   }
 
   /**

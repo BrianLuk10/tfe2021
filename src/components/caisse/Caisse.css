@@ -12,12 +12,73 @@ hr {
   border-top: 1px dashed;
 }
 
+.dot5 {
+  border-radius: 5px;
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+
+.dot4 {
+  border-radius: 5px;
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+
+.dot3 {
+  border-radius: 5px;
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+
+.dot2 {
+  border-radius: 5px;
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+
+.dot1 {
+  border-radius: 5px;
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+
+.dot0 {
+  border-radius: 5px;
+  background: #f00;
+  width: 10px;
+  height: 10px;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+
 .fleur {
   background-color: #47ccde;
 }
 
 .décoration {
-  background-color: crimson;
+  background-color: rgb(201, 25, 60);
+  
 }
 
 .consommable {
