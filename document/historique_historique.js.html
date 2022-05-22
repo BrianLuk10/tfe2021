@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: historique/historique.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: historique/historique.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { Button } from "react-bootstrap";
+import "./historique.css";
+import Confirmer from "../modifierProduit/Confirmer";
+
+/**
+ * fonction affiche la page historique
+ * @returns {html, React.ReactElement}
+ */
+export default function Historique() {
+  const [APIData, setAPIData] = useState([]);
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [
+    image_produits,
+    nom_produits,
+    prix_produits,
+    categorie_produits,
+    stock,
+    statut,
+    date_modification,
+  ] = useState("");
+  const [showConfirm, setConfirm] = useState(false);
+  useEffect(() => {
+    axios.get(`http://localhost:3030/historique`).then((response) => {
+      for (let i = 0; i &lt; response.data.length; i++) {
+        response.data[i].date_modification = response.data[i].date_modification
+          .slice(0, 19)
+          .replace("T", " ");
+      }
+      setAPIData(response.data);
+    });
+  }, []);
+
+  /**
+   * fonction qui permet de filtrer les données avec ce qu'on écrit
+   * @param {string} searchValue
+   * @param {boolean} affiche un resultat en Object en fonction de ce qu'on écrit si vide ou non
+   * @return {Object.values}
+   */
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue);
+    if (searchInput !== "") {
+      const filteredData = APIData.filter((item) => {
+        return Object.values(item)
+          .join("")
+          .toLowerCase()
+          .includes(searchInput.toLowerCase());
+      });
+      setFilteredResults(filteredData);
+    } else {
+      setFilteredResults(APIData);
+    }
+  };
+
+  /*
+   fonction confirmation qui fait disparaitre le message de confirmation avec un state 
+   */
+  const confirmer = () => {
+    setConfirm((showConfirm) => !showConfirm);
+    window.history.back();
+  };
+
+  /**
+   * fonction pour supprimer une donnée définitivement, un message de confirmation apparait en changeant le state
+   * @param {integer} id
+   */
+  const supprimerHistorique = (id) => {
+    axios.delete(`http://localhost:3030/historique/` + id);
+    setConfirm((showConfirm) => !showConfirm);
+  };
+
+  return (
+    &lt;div>
+      &lt;Link to="/historiqueSupprimé">
+        &lt;Button variant="danger">
+          &lt;span>Historique des produits supprimés&lt;/span>
+        &lt;/Button>
+      &lt;/Link>
+      &lt;div style={{ padding: 20 }}>
+        &lt;input
+          icon="search"
+          placeholder="Rechercher..."
+          onChange={(e) => searchItems(e.target.value)}
+        />
+        &lt;div>
+          {searchInput.length > 1
+            ? filteredResults.map((item) => {
+                let url = "/modifierProduitPage/" + item.id_produits;
+                return (
+                  &lt;div>
+                    &lt;ul className="list-group">
+                      &lt;li key={item.id_produits} className="list-group-item">
+                        id : {item.id_produits}
+                        &amp;nbsp;&amp;nbsp; Nom du produit : {item.nom_produits}{" "}
+                        &amp;nbsp;&amp;nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
+                        &amp;nbsp;&amp;nbsp; stock : {item.stock} &amp;nbsp;&amp;nbsp; categorie
+                        : {item.categorie_produits}
+                        &amp;nbsp;&amp;nbsp;status : {item.statut} &amp;nbsp;&amp;nbsp; Date de
+                        modification : {item.date_modification}
+                        &lt;button
+                          className="button-40"
+                          role="button"
+                          onClick={() =>
+                            supprimerHistorique(item.id_historique)
+                          }
+                        >
+                          supprimé
+                        &lt;/button>
+                      &lt;/li>
+                    &lt;/ul>
+                    &lt;Confirmer show={showConfirm} confirmer={confirmer} />
+                  &lt;/div>
+                );
+              })
+            : APIData.map((item) => {
+                let url = "/modifierProduitPage/" + item.id_produits;
+                return (
+                  &lt;div>
+                    &lt;ul className="list-group">
+                      &lt;li key={item.id_produits} className="list-group-item">
+                        id : {item.id_produits}
+                        &amp;nbsp;&amp;nbsp; Nom du produit : {item.nom_produits}{" "}
+                        &amp;nbsp;&amp;nbsp; prix : {item.prix_produits.toFixed(2)} €{" "}
+                        &amp;nbsp;&amp;nbsp; stock : {item.stock} &amp;nbsp;&amp;nbsp; categorie
+                        : {item.categorie_produits}
+                        &amp;nbsp;&amp;nbsp;status : {item.statut} &amp;nbsp;&amp;nbsp; Date de
+                        modification : {item.date_modification}
+                        &lt;button
+                          className="button-40"
+                          role="button"
+                          onClick={() =>
+                            supprimerHistorique(item.id_historique)
+                          }
+                        >
+                          supprimé
+                        &lt;/button>
+                      &lt;/li>
+                    &lt;/ul>
+                    &lt;Confirmer show={showConfirm} confirmer={confirmer} />
+                  &lt;/div>
+                );
+              })}
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculerPrixTotal">calculerPrixTotal</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#Modal2">Modal2</a></li><li><a href="global.html#onChangeValue">onChangeValue</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#Ticket">Ticket</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 22 2022 19:22:47 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

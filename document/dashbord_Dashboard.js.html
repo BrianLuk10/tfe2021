@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: dashbord/Dashboard.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: dashbord/Dashboard.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+import { Link } from "react-router-dom";
+import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import "./dashboard.css";
+
+/**
+ *création du Modal les articles de commande, leur prix à l'unité et leur quantité acheté
+ * @param {any} handleClose
+ * @param {any} show
+ * @param {any} children
+ * @returns {React.ReactElement}
+ */
+
+const Modal = ({ handleClose, show, children }) => {
+  const showHideClassName = show ? "modal display-block" : "modal display-none";
+
+  return (
+    &lt;div className={showHideClassName}>
+      &lt;section className="modal-main">
+        {children}
+        &lt;button className="btn btn-danger" onClick={handleClose}>
+          Fermer
+        &lt;/button>
+      &lt;/section>
+    &lt;/div>
+  );
+};
+class Dashboard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      posts: [],
+      offset: 0,
+      data: [],
+      perPage: 10,
+      currentPage: 0,
+      show: false,
+    };
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this.showModal = this.showModal.bind(this);
+  }
+
+  /**
+   * fonction qui permet d'afficher le modal des commandes, est appelé lorsqu'on clique sur la div des commandes
+   * @param pd (post data)
+   */
+
+  showModal = (pd) => {
+    sessionStorage.setItem("commandeCaisse", JSON.stringify(pd));
+    var data = JSON.parse(sessionStorage.getItem("commandeCaisse"));
+    console.log(data);
+    this.setState({ show: true });
+    document.getElementById("nom").innerHTML =
+      "&lt;div> produits :" +
+      data.nom +
+      " &lt;/div> &lt;div>prix à l'unité : " +
+      data.prix +
+      " &lt;/div> &lt;div>nombre par produits : " +
+      data.nombre +
+      " &lt;/div> &lt;div>total : " +
+      data.total +
+      "€&lt;/div>";
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
+  /**
+   * fonction pour changer de page
+   * @param e
+   */
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.perPage;
+    this.setState(
+      {
+        currentPage: selectedPage,
+        offset: offset,
+      },
+      () => {
+        this.componentDidMount();
+      }
+    );
+  };
+
+  /**
+   * changer l'état d'une commande (annulation, reservation ou vente), puis "recharge la page" dynamiquement en appellant componentDidMount
+   * @param x
+   */
+  changerEtat(x) {
+    var etat = document.getElementById(x).value;
+    axios.put("http://localhost:3030/commande/" + x, {
+      id_etat: etat,
+    });
+    this.componentDidMount();
+  }
+
+  componentDidMount() {
+    axios.get("http://localhost:3030/commande").then((res) => {
+      const data = res.data;
+      const posts = data.map((obj) => ({
+        id: obj.id_commandes,
+        id_produits: obj.id_produits,
+        nom: obj.nom,
+        prix: obj.prix_sep,
+        nombre: obj.nombre_sep,
+        total: obj.total,
+        date_commandes: obj.date_commandes.slice(0, 19).replace("T", " "),
+        etat_commandes: obj.etat_commandes,
+        id_etat: obj.id_etat,
+      }));
+      const slice = posts.slice(
+        this.state.offset,
+        this.state.offset + this.state.perPage
+      );
+      this.setState({});
+      const postData = slice.map((pd) => (
+        &lt;ListGroupItem>
+          &lt;span onClick={() => this.showModal(pd)}>
+            id de la commande : {pd.id} | total : {pd.total}€ | date :{" "}
+            {pd.date_commandes} | etat de la commande :
+            &lt;span className={pd.etat_commandes}>{pd.etat_commandes}&lt;/span> |
+          &lt;/span>
+          changer etat :
+          &lt;select id={pd.id} name="etat_commande" defaultValue={pd.id_etat}>
+            &lt;option value="1">vente&lt;/option>
+            &lt;option value="2">réservation&lt;/option>
+            &lt;option value="3">annulé&lt;/option>
+          &lt;/select>
+          &lt;button onClick={() => this.changerEtat(pd.id)}>changer état&lt;/button>
+        &lt;/ListGroupItem>
+      ));
+      this.setState({
+        pageCount: Math.ceil(posts.length / this.state.perPage),
+        postData,
+      });
+    });
+  }
+
+  /**
+   * render
+   * @returns {html}
+   */
+  render() {
+    return (
+      &lt;div>
+        &lt;Link to="/chartSemaine">
+          &lt;Button variant="dark">
+            &lt;span>graphique de la semaine&lt;/span>
+          &lt;/Button>
+        &lt;/Link>
+        &lt;Link to="/chartMois">
+          &lt;Button variant="dark">
+            &lt;span>graphique des mois&lt;/span>
+          &lt;/Button>
+        &lt;/Link>
+        &lt;Link to="/chartAnnee">
+          &lt;Button variant="dark">
+            &lt;span>graphique en année&lt;/span>
+          &lt;/Button>
+        &lt;/Link>
+        &lt;Modal
+          show={this.state.show}
+          handleClose={this.hideModal}
+          validerModal={this.validerModal}
+        >
+          &lt;div id="nom">&lt;/div>
+        &lt;/Modal>
+        &lt;ListGroup>{this.state.postData}&lt;/ListGroup>
+        &lt;ReactPaginate
+          previousLabel={"prev"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={this.state.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
+      &lt;/div>
+    );
+  }
+}
+
+export default Dashboard;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculerPrixTotal">calculerPrixTotal</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#Modal2">Modal2</a></li><li><a href="global.html#onChangeValue">onChangeValue</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#Ticket">Ticket</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 22 2022 19:22:47 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: modifierProduit/modifierProduitPage.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: modifierProduit/modifierProduitPage.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./modifierProduit.css";
+import Dialog from "./Dialog";
+import Confirmer from "./Confirmer";
+
+export default class ModifierProduitPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id_produitPage: "",
+      id_produits: "",
+      image_produits: "",
+      nom_produits: "",
+      prix_produits: "",
+      id_categorie: "",
+      stock: "",
+      showDialog: false,
+      showConfirm: false,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.openDialog = this.openDialog.bind(this);
+  }
+
+  /*
+  ouverture du modal avec un state true/false
+  */
+  openDialog() {
+    this.setState({
+      showDialog: true,
+    });
+  }
+
+  /*
+  fermeture du modal avec un state true/false
+  */
+  confirmer = () => {
+    this.setState({
+      showConfirm: false,
+    });
+  };
+
+  /*
+  une fois le choix confirmer, envoie les données dans la BDD via l'API et fermeture du modal avec un state true/false
+  */
+  confirm = () => {
+    axios
+      .put("http://localhost:3030/produitModify/" + this.state.id_produitPage)
+      .then((res) => {
+        console.log(res);
+      });
+
+    this.setState({
+      showDialog: false,
+    });
+    window.history.back();
+  };
+
+  /*
+    annulation du modal avec en le faisant disparaitre avec un state true/false, le met à false pour que le message s'affiche plus
+   */
+  cancelDialog = () => {
+    this.setState({
+      showDialog: false,
+    });
+  };
+
+  /**
+   * fonction pour changer l'état dynamiquement
+   * @param e
+   */
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+    console.log(this.state);
+  }
+
+  /**
+   * envoie des données dans la BDD et fermeture du modal
+   * @param e
+   */
+  submitHandler = (e) => {
+    e.preventDefault();
+    axios
+      .put("http://localhost:3030/produit/" + this.state.id_produitPage, {
+        nom_produits: this.state.nom_produits,
+        image_produits: this.state.image_produits,
+        id_categorie: this.state.id_categorie,
+        prix_produits: this.state.prix_produits,
+      })
+      .then((response) => {
+        console.log(response);
+        axios
+          .put(
+            "http://localhost:3030/fournissement/" + this.state.id_produitPage,
+            { stock_produits: this.state.stock }
+          )
+          .then((response) => {
+            console.log(response);
+          });
+      });
+    this.setState({
+      showConfirm: true,
+    });
+  };
+
+  /*
+  méthode react pour obtenir les données du produit en cours en fonction de son id et les affiches
+  */
+  componentDidMount() {
+    let url = window.location.href;
+    let getNumber = url
+      .replace(/[^0-9]/g, " ")
+      .trim()
+      .split(/\s+/);
+    let result = parseInt(getNumber[getNumber.length - 1], 10);
+    this.setState({ id_produitPage: result }, () =>
+      axios
+        .get("http://localhost:3030/produit/" + this.state.id_produitPage)
+        .then((res) => {
+          console.log(
+            "http://localhost:3030/produit/" + this.state.id_produitPage
+          );
+          const produitdatavalue = res.data;
+          console.log(produitdatavalue);
+          this.setState({
+            id_produits: produitdatavalue.id_produits,
+            image_produits: produitdatavalue.image_produits,
+            nom_produits: produitdatavalue.nom_produits,
+            prix_produits: produitdatavalue.prix_produits,
+            categorie_produits: produitdatavalue.categorie_produits,
+            id_categorie: produitdatavalue.id_categorie,
+            stock: produitdatavalue.stock,
+          });
+        })
+    );
+  }
+
+  /**
+   * render
+   * @returns {html}
+   */
+  render() {
+    return (
+      &lt;div>
+        &lt;div>
+          &lt;form onSubmit={this.submitHandler}>
+            &lt;div className={"row-wrapper"}>
+              &lt;div className="column-wrapper contact">
+                &lt;h2>Produit a ajouté dans la caisse&lt;/h2>
+                &lt;div>
+                  &lt;label htmlFor="Nom">Nom du produit :&lt;/label>
+                  &lt;input
+                    type="texte"
+                    id="nom_produits"
+                    name="nom_produits"
+                    value={this.state.nom_produits}
+                    onChange={this.handleChange}
+                    required
+                  />
+                &lt;/div>
+                &lt;div>
+                  &lt;label htmlFor="Lien">Lien URL de l'image :&lt;/label>
+                  &lt;input
+                    type="texte"
+                    id="image_produits"
+                    name="image_produits"
+                    value={this.state.image_produits}
+                    onChange={this.handleChange}
+                    required
+                  />
+                &lt;/div>
+                &lt;div>
+                  &lt;label htmlFor="Prix">Prix :&lt;/label>
+                  &lt;input
+                    type="number"
+                    min="0"
+                    step=".01"
+                    id="prix_produits"
+                    name="prix_produits"
+                    value={this.state.prix_produits}
+                    onChange={this.handleChange}
+                    required
+                  />
+                &lt;/div>
+                &lt;div>
+                  &lt;label htmlFor="Cat">categorie :&lt;/label>
+                  &lt;select
+                    id="id_categorie"
+                    name="id_categorie"
+                    value={this.state.id_categorie}
+                    onChange={this.handleChange}
+                    defaultValue={this.state.categorie_produits}
+                  >
+                    &lt;option value="1">fleur&lt;/option>
+                    &lt;option value="2">consommable&lt;/option>
+                    &lt;option value="3">décoration&lt;/option>
+                  &lt;/select>
+                &lt;/div>
+                &lt;div>
+                  &lt;label htmlFor="Stock">En stock :&lt;/label>
+                  &lt;input
+                    type="number"
+                    min="0"
+                    step="1"
+                    id="stock"
+                    name="stock"
+                    value={this.state.stock}
+                    onChange={this.handleChange}
+                    required
+                  />
+                &lt;/div>
+                &lt;div className="confirmer">
+                  &lt;button
+                    className="btn btn-primary"
+                    type="submit"
+                    id="sub"
+                    name="sub"
+                  >
+                    Confirmer
+                  &lt;/button>
+                &lt;/div>
+              &lt;/div>
+            &lt;/div>
+          &lt;/form>
+          &lt;div>
+            &lt;div className="mt-10 text-center">
+              &lt;button className="btn" onClick={this.openDialog}>
+                Supprimer produit
+              &lt;/button>
+            &lt;/div>
+
+            &lt;Dialog
+              show={this.state.showDialog}
+              cancel={this.cancelDialog}
+              confirm={this.confirm}
+            />
+
+            &lt;Confirmer
+              show={this.state.showConfirm}
+              confirmer={this.confirmer}
+            />
+          &lt;/div>
+        &lt;/div>
+        &lt;Link to="/modifierProduit">retour page précédente&lt;/Link>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculerPrixTotal">calculerPrixTotal</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#Modal2">Modal2</a></li><li><a href="global.html#onChangeValue">onChangeValue</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#Ticket">Ticket</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 22 2022 19:22:47 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

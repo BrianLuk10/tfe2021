@@ -1,13 +1,14 @@
-const { app, ipcMain, BrowserWindow } = require("electron");
+const { app, BrowserWindow } = require("electron");
 var Toaster = require("electron-toaster");
+const { Children } = require("react");
 var toaster = new Toaster();
-var cp = require("child_process");
+const exec = require("child_process").exec;
 
 let mainWindow;
 
 function createWindow() {
   process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
-
+  variable = exec("node backend/server.js");
   mainWindow = new BrowserWindow({
     width: 1380,
     height: 840,
@@ -18,23 +19,23 @@ function createWindow() {
     },
   });
 
-  //mainWindow.removeMenu();
-
-  toaster.init(mainWindow);
+  // mainWindow.removeMenu();
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+
+  variable.on("exit", () => {
+    variable.kill();
+  });
 }
 
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  app.quit();
 });
 
 app.on("activate", () => {
