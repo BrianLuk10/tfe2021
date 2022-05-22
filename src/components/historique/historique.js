@@ -7,7 +7,7 @@ import Confirmer from "../modifierProduit/Confirmer";
 
 /**
  * fonction affiche la page historique
- * @returns {html, React.ReactElement}
+ * @returns {React.ReactElement}
  */
 export default function Historique() {
   const [APIData, setAPIData] = useState([]);

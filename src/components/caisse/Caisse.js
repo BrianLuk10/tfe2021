@@ -49,7 +49,7 @@ const Modal = ({ handleClose, validerModal, show, children }) => {
  * création du Modal si le stock du produit est à 0, renvoie 'plus disponible'
  * @param {any} handleClose2
  * @param {any} show2
- * @returns
+ * @returns {React.ReactElement}
  */
 const Modal2 = ({ handleClose2, show2 }) => {
   const showHideClassName2 = show2

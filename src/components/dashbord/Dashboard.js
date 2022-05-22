@@ -6,7 +6,7 @@ import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
 import "./dashboard.css";
 
 /**
- *création du Modal les articles de commande, leur prix à l'unité et leur quantité acheté
+ * création du Modal les articles de commande, leur prix à l'unité et leur quantité acheté
  * @param {any} handleClose
  * @param {any} show
  * @param {any} children

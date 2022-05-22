@@ -12,7 +12,7 @@ export default function useToken() {
   /**
    * sauvegarde du token
    * @param {string} userToken
-   * @return {setToken: string}
+   * @return {Object}
    */
   const saveToken = (userToken) => {
     sessionStorage.setItem("token", JSON.stringify(userToken));

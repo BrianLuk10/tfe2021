@@ -4,7 +4,7 @@ import Confirmer from "../modifierProduit/Confirmer";
 
 /**
  * fonction affiche produit indisponible
- * @returns {html, React.ReactElement}
+ * @returns {React.ReactElement}
  */
 export default function ProduitIndiponible() {
   const [APIData, setAPIData] = useState([]);

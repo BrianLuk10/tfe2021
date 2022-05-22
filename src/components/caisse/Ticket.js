@@ -14,7 +14,7 @@ function calculerPrixTotal(a, b) {
 }
 /**
  * fonction affichage de la page de ticket de caisse
- * @returns {html, React.ReactElement} page du ticket
+ * @returns {React.ReactElement} page du ticket
  */
 function Ticket() {
   let articleShow;
