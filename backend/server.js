@@ -25,7 +25,6 @@ app.use("/token", (req, res) => {
   });
 });
 
-require("./routes/client.route.js")(app);
 require("./routes/produit.route.js")(app);
 require("./routes/fournissement.route.js")(app);
 require("./routes/historique.route.js")(app);
