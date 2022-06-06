@@ -52,7 +52,7 @@ export default function App() {
         </Link>
         <Link to="/blocnote">
           <Button>
-            <span>bloc note</span>
+            <span>bloc-notes</span>
           </Button>
         </Link>
 
