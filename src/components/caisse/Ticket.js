@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
+import axios from "axios";
 
 let prixTotal = 0;
 
@@ -32,6 +33,8 @@ function Ticket() {
   sessionStorage.setItem("caisse", JSON.stringify(data));
   let article = JSON.parse(sessionStorage.getItem("save"));
   let i = 0;
+  let numeroCommande = sessionStorage.getItem("numero");
+
   try {
     posts = article.map((obj) => ({
       articleId: i++,
@@ -43,9 +46,9 @@ function Ticket() {
     articleShow = posts.map((pd) => (
       <tr>
         {calculerPrixTotal(pd.prix, pd.nombre)}
-        <td>{date}</td>
         <td>{pd.nombre}</td>
         <td>{pd.nom}</td>
+        <td>{pd.prix}€</td>
         <td></td>
         <td>{pd.prix * pd.nombre}€</td>
       </tr>
@@ -74,21 +77,33 @@ function Ticket() {
           <div>18 rue Saint Jean 1370 Jodoigne</div>
           <div>010.81.24.85</div>
           <div>0498.80.01.02</div>
+          <div>{date}</div>
+          <div>Numéro de caisse : {numeroCommande}</div>
         </div>
         <table>
           <tr>
-            <th>Date</th>
             <th>Qté</th>
             <th>Article</th>
+            <th>Prix unitaire</th>
             <th></th>
             <th>Prix</th>
           </tr>
           {articleShow}
           <hr></hr>
           <tr>
+            <th>HTVA</th>
+            <th>TAUX</th>
+            <th></th>
+            <th>TVA</th>
+            <th></th>
             <th>TOTAL</th>
           </tr>
           <tr>
+            <td>6.60€</td>
+            <td>6.00</td>
+            <td></td>
+            <td>0.40€</td>
+            <td></td>
             <td>{prixTotal}€</td>
           </tr>
           <div>TOTAL : {prixTotal}€</div>

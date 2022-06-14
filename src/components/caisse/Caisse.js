@@ -59,9 +59,27 @@ const Modal2 = ({ handleClose2, show2 }) => {
   return (
     <div className={showHideClassName2}>
       <section className="modal-main">
-        <div>plus disponible</div>
+        <div>Plus disponible</div>
         <span></span>
         <button className="btn btn-danger" onClick={handleClose2}>
+          Fermer
+        </button>
+      </section>
+    </div>
+  );
+};
+
+const Modal3 = ({ handleClose3, show3 }) => {
+  const showHideClassName3 = show3
+    ? "modal display-block"
+    : "modal display-none";
+
+  return (
+    <div className={showHideClassName3}>
+      <section className="modal-main">
+        <div>Stock insuffisant, veuillez choisir un autre nombre</div>
+        <span></span>
+        <button className="btn btn-danger" onClick={handleClose3}>
           Fermer
         </button>
       </section>
@@ -83,12 +101,14 @@ export default class Caisse extends React.Component {
       value: "Tout",
       show: false,
       show2: false,
+      show3: false,
       article: [],
     };
     this.onChangeValue = this.onChangeValue.bind(this);
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.hideModal2 = this.hideModal2.bind(this);
+    this.hideModal3 = this.hideModal3.bind(this);
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
@@ -136,7 +156,6 @@ export default class Caisse extends React.Component {
         nombre: this.state.caisse[i].nombre,
       });
     }
-
     this.setState({ caisse: [] });
     prixTotal = 0;
     this.componentDidMount();
@@ -156,6 +175,10 @@ export default class Caisse extends React.Component {
     this.setState({ show2: false });
   };
 
+  hideModal3 = () => {
+    this.setState({ show3: false });
+  };
+
   /*
   une fois le modal valider, le cache et ajoute les données dans la caisse avec un sessionStorage
   */
@@ -165,6 +188,7 @@ export default class Caisse extends React.Component {
     let data = JSON.parse(sessionStorage.getItem("caisseProduit"));
     data.nombre = slider.value;
     if (data.nombre > data.stock) {
+      this.setState({ show3: true });
     } else {
       sessionStorage.setItem("caisse", JSON.stringify(data));
       this.state.caisse.push(JSON.parse(sessionStorage.getItem("caisse")));
@@ -193,6 +217,12 @@ export default class Caisse extends React.Component {
   fonction componentDidMount, méthode de React pour recevoir les données des produits de la caisse via une API et les affichent.
   */
   componentDidMount() {
+    axios.get("http://localhost:3030/commande").then((res) => {
+      sessionStorage.setItem(
+        "numero",
+        JSON.stringify(res.data[0].id_commandes + 1)
+      );
+    });
     axios.get(`http://localhost:3030/produit`).then((res) => {
       let filter;
       if (this.state.value == "Tout") {
@@ -321,6 +351,11 @@ export default class Caisse extends React.Component {
             <div id="nom"></div>
             <div id="prix">€</div>
           </Modal2>
+          <Modal3 show3={this.state.show3} handleClose3={this.hideModal3}>
+            <div id="img1" />
+            <div id="nom"></div>
+            <div id="prix">€</div>
+          </Modal3>
           <div className="container">
             <div onChange={this.onChangeValue}>
               <input type="radio" value="Tout" name="categorie" /> Tout
