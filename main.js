@@ -19,7 +19,7 @@ function createWindow() {
     },
   });
 
-  //mainWindow.removeMenu();
+  mainWindow.removeMenu();
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 

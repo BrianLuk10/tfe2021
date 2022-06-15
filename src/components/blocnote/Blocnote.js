@@ -67,7 +67,7 @@ class Blocnote extends Component {
       type: "text/plain",
     });
     element.href = URL.createObjectURL(file);
-    element.download = "myFile.txt";
+    element.download = "";
     document.body.appendChild(element);
     element.click();
   };
